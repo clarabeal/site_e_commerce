@@ -42,26 +42,33 @@ class Routeur {
               }
             }
             else if($_GET['action']=='inscription'){
-              $this->ctrlInscription->inscription();
+              if(!$_SESSION['logged']){ //Si l'utilisateur n'est pas connecté on affiche la page de connexion
+                $this->ctrlInscription->inscription();
 
-              if(isset($_POST['validerInscription'])){
+                if(isset($_POST['validerInscription'])){
 
-                if($this->getParametre($_POST,'MdpInscription')==$this->getParametre($_POST,'confirmerMdpInscription')){
-                  $pseudo=$this->getParametre($_POST,'pseudoInscription');
+                  if($this->getParametre($_POST,'MdpInscription')==$this->getParametre($_POST,'confirmerMdpInscription')){
+                    $pseudo=$this->getParametre($_POST,'pseudoInscription');
 
-                  if($this->ctrlInscription->ctrlCheckAvaibility($pseudo)){
-                    $hashMdpInscription=sha1($this->getParametre($_POST,'MdpInscription'));
-                    $this->ctrlInscription->ctrlRegister($pseudo,$hashMdpInscription);
-                    $_SESSION['logged']=true; //Une fois enregistré on connecte l'utilisateur
-                    header('Location:index.php');
+                    if($this->ctrlInscription->ctrlCheckAvaibility($pseudo)){
+                      $hashMdpInscription=sha1($this->getParametre($_POST,'MdpInscription'));
+                      $this->ctrlInscription->ctrlRegister($pseudo,$hashMdpInscription);
+                      $_SESSION['logged']=true; //Une fois enregistré on connecte l'utilisateur
+                      header('Location:index.php');
+                    }
+                    else{
+                      throw new Exception("Utilisateur déjà existant");
+                    }
                   }
                   else{
-                    throw new Exception("Utilisateur déjà existant");
+                    throw new Exception("Le mot de passe n'est pas le même");
                   }
-                }
-                else{
-                  throw new Exception("Le même mot de passe n'est pas le même");
-                }
+                } //Si connecté, on le déconnecte
+              }
+              else{
+                $_SESSION['logged']=false;
+                header('Location:index.php');
+
               }
             }
             else{

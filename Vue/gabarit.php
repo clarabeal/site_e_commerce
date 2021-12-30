@@ -1,11 +1,19 @@
-<?php session_start();
-var_dump($_SESSION);
+<?php 
 
-//if($_SESSION('logged')==false):?>
-  <a href="<?= "index.php?action=inscription" ?>">
-  <p>Inscription</p></a>
+if(!isset($_SESSION['logged'])){
+  $_SESSION['logged']=false;
+}
 
-<?php //endif; ?>
+if($_SESSION['logged']){
+  echo ("<a href= \"index.php?action=inscription\">");
+  echo ("<p>Déconnexion</p></a>");
+}
+
+else{
+  echo ("<a href= \"index.php?action=inscription\">");
+  echo ("<p>Inscription</p></a>");
+}
+?>
 
 <!doctype html>
 <html lang="fr">

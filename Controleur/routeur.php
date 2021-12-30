@@ -4,6 +4,7 @@ require_once 'Controleur/controleurAccueil.php';
 require_once 'Controleur/controleurCaracteristiques.php';
 require_once 'Controleur/controleurCategorie.php';
 require_once 'Controleur/controleurInscription.php';
+require_once 'Controleur/controleurConnexion.php';
 require_once 'Vue/vue.php';
 
 class Routeur {
@@ -11,12 +12,14 @@ class Routeur {
     private $ctrlCaracteristiques;
     private $ctrlCategorie;
     private $ctrlInscription;
+    private $ctrlConnexion;
 
     public function __construct(){
       $this->ctrlAccueil = new ControleurAccueil();
       $this->ctrlCaracteristiques = new ControleurCaracteristiques();
       $this->ctrlCategorie = new ControleurCategorie();
       $this->ctrlInscription = new ControleurInscription();
+      $this->ctrlConnexion = new ControleurConnexion();
     }
     
     //Traite une requête entrante
@@ -51,7 +54,7 @@ class Routeur {
                     $pseudo=$this->getParametre($_POST,'pseudoInscription');
 
                     if($this->ctrlInscription->ctrlCheckAvaibility($pseudo)){
-                      $hashMdpInscription=sha1($this->getParametre($_POST,'MdpInscription'));
+                      $hashMdpInscription=sha1($this->getParametre($_POST,'mdpInscription'));
                       $this->ctrlInscription->ctrlRegister($pseudo,$hashMdpInscription);
                       $_SESSION['logged']=true; //Une fois enregistré on connecte l'utilisateur
                       header('Location:index.php');
@@ -69,6 +72,22 @@ class Routeur {
                 $_SESSION['logged']=false;
                 header('Location:index.php');
 
+              }
+            }
+            else if($_GET['action']='connexion'){
+              $this->ctrlConnexion->connexion();
+              if(isset($_POST['validerConnexion'])){
+
+                $pseudo=$this->getParametre($_POST,'pseudoConnexion');
+                $hashMdpConnexion=sha1($this->getParametre($_POST,'mdpConnexion'));
+
+                if($this->ctrlConnexion->ctrlCheckUser($pseudo,$hashMdpConnexion)){
+                  $_SESSION['logged']=true;
+                  header('Location:index.php');
+                }
+                else{
+                  throw new Exception("Utilisateur non enregistré");
+                }
               }
             }
             else{

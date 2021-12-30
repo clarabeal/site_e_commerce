@@ -7,11 +7,14 @@ if(!isset($_SESSION['logged'])){
 if($_SESSION['logged']){
   echo ("<a href= \"index.php?action=inscription\">");
   echo ("<p>Déconnexion</p></a>");
+  echo ("Profil:");
 }
 
 else{
   echo ("<a href= \"index.php?action=inscription\">");
   echo ("<p>Inscription</p></a>");
+  echo ("<a href= \"index.php?action=connexion\">");
+  echo ("<p>Connexion</p></a>");
 }
 ?>
 

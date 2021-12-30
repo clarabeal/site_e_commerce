@@ -12,8 +12,8 @@ class Inscription extends Modele {
     }
 
     //Insère le nouvel utilisateur dans la table logins
-    public function register($pseudo,$MDP){
+    public function register($pseudo,$hashMdp){
         $sql='INSERT INTO logins VALUES (NULL,"1",?,?)';
-        $this->executerRequete($sql,array($pseudo,$MDP));
+        $this->executerRequete($sql,array($pseudo,$hashMdp));
     }
 }

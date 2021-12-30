@@ -50,13 +50,14 @@ class Routeur {
 
                 if(isset($_POST['validerInscription'])){
 
-                  if($this->getParametre($_POST,'MdpInscription')==$this->getParametre($_POST,'confirmerMdpInscription')){
+                  if($this->getParametre($_POST,'mdpInscription')==$this->getParametre($_POST,'confirmerMdpInscription')){
                     $pseudo=$this->getParametre($_POST,'pseudoInscription');
 
                     if($this->ctrlInscription->ctrlCheckAvaibility($pseudo)){
                       $hashMdpInscription=sha1($this->getParametre($_POST,'mdpInscription'));
                       $this->ctrlInscription->ctrlRegister($pseudo,$hashMdpInscription);
                       $_SESSION['logged']=true; //Une fois enregistré on connecte l'utilisateur
+                      $_SESSION['pseudo']=$pseudo;
                       header('Location:index.php');
                     }
                     else{
@@ -83,6 +84,7 @@ class Routeur {
 
                 if($this->ctrlConnexion->ctrlCheckUser($pseudo,$hashMdpConnexion)){
                   $_SESSION['logged']=true;
+                  $_SESSION['pseudo']=$pseudo;
                   header('Location:index.php');
                 }
                 else{

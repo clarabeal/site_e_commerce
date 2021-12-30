@@ -7,7 +7,7 @@ if(!isset($_SESSION['logged'])){
 if($_SESSION['logged']){
   echo ("<a href= \"index.php?action=inscription\">");
   echo ("<p>Déconnexion</p></a>");
-  echo ("Profil:");
+  echo ('Profil: '.$_SESSION["pseudo"]);
 }
 
 else{

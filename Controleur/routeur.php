@@ -55,7 +55,16 @@ class Routeur {
 
                 if($this->ctrlInscription->ctrlCheckAvaibility($pseudo)){
                   $hashMdpInscription=sha1($this->getParametre($_POST,'mdpInscription'));
-                  $this->ctrlInscription->ctrlRegister($pseudo,$hashMdpInscription);
+                  $prenom=$this->getParametre($_POST,'prenomClient');
+                  $nom=$this->getParametre($_POST,'nomClient');
+                  $add1=$this->getParametre($_POST,'add1Client');
+                  $add2=$this->getParametre($_POST,'add2Client');
+                  $ville=$this->getParametre($_POST,'villeClient');
+                  $cp=$this->getParametre($_POST,'cpClient');
+                  $numTel=$this->getParametre($_POST,'numTelClient');
+                  $email=$this->getParametre($_POST,'emailClient');
+
+                  $this->ctrlInscription->ctrlRegister($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email,$pseudo,$hashMdpInscription);
                   $_SESSION['logged']=true; //Une fois enregistré on connecte l'utilisateur
                   $_SESSION['pseudo']=$pseudo;
                   header('Location:index.php');
@@ -67,9 +76,9 @@ class Routeur {
               else{
                 throw new Exception("Le mot de passe n'est pas le même");
               }
-            } //Si connecté, on le déconnecte
+            } 
           }
-          else{
+          else{ //Si connecté, on le déconnecte
             $_SESSION['logged']=false;
             header('Location:index.php');
           }
@@ -113,10 +122,11 @@ class Routeur {
   //Recherche un paramètre dans un tableau
   private function getParametre($tableau,$nom){
     if(isset($tableau[$nom])){
-        return $tableau[$nom];
+      return $tableau[$nom];
     }
     else{
-        throw new Exception("Paramètre '$nom' absent");
+      throw new Exception("Paramètre '$nom' absent");
     }
-  }   
+  } 
+
 }

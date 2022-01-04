@@ -7,4 +7,5 @@
         <tr><td>Confirmer mot de passe:</td><td><input type="password" name="confirmerMdpInscription"></td></tr>       
         <br/>
         <tr><td><input class="button" type="submit" name="validerInscription" value="S'inscrire">
-    </table>       
+    </table>  
+</form>     

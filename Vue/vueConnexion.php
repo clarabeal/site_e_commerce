@@ -7,3 +7,4 @@
         <br/>
         <tr><td><input class="button" type="submit" name="validerConnexion" value="Se connecter">
     </table>   
+</form>

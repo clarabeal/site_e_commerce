@@ -13,14 +13,7 @@ class Inscription extends Modele {
 
     //Insère le nouvel utilisateur dans la table logins
     public function register($pseudo,$hashMdp){
-        $sql='INSERT INTO logins VALUES (NULL,?,?,?)';
-        $this->executerRequete($sql,array($this->customerId($pseudo),$pseudo,$hashMdp));
-    }
-
-    //Renvoie l'id pour créer le customer_id
-    public function customerId($pseudo){
-        $sql='SELECT id FROM logins WHERE username=?';
-        $resultat=$this->executerRequete($sql,array($pseudo));
-        return $resultat->fetch();
+        $sql='INSERT INTO logins VALUES (NULL,1,?,?)';
+        $this->executerRequete($sql,array($pseudo,$hashMdp));
     }
 }

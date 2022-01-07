@@ -8,7 +8,7 @@ class Produit extends Modele{
     public function getProducts(){
         $sql = 'SELECT * FROM products ORDER BY name';
         $produits = $this->executerRequete($sql);
-        return $produits;
+        return $produits->fetchAll();
     }
 
     //Renvoie les caractéristiques associées au produit
@@ -28,7 +28,7 @@ class Produit extends Modele{
         $sql = 'SELECT P.* FROM products P JOIN categories C ON P.cat_id=C.id WHERE C.id=?';
         $produits = $this->executerRequete($sql,array($idCat));
         if($produits->RowCount()>=1){ //On regarde si la catégorie existe
-            return $produits;
+            return $produits->fetchAll();
         }
         else{
             throw new Exception("Aucune catégorie ne correspond à l'identifiant'$idCat'");

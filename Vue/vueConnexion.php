@@ -1,4 +1,4 @@
-<?php $this->titre='Connexion' ?>
+<?php $this->titre='WEB 4 SHOP : Connexion' ?>
 
 <form action="index.php?action=connexion" method="POST">
     <table>

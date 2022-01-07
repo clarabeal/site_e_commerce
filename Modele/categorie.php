@@ -14,13 +14,13 @@ class Categorie extends Modele{
     public function getCategories(){
         $sql = 'SELECT * FROM categories';
         $categories = $this->executerRequete($sql);
-        return $categories;
+        return $categories->fetchAll();
     }
 
     //Renvoie le nom de la catégorie sélectionnéee (utilisée pour le titre de vueCategorie)
     public function getNameCategorie($idCategorie){
         $sql = 'SELECT name FROM categories WHERE id=?';
-        $categorie = $this->executerRequete($sql,array($idCategorie));
-        return $categorie->fetch(); 
+        $nom = $this->executerRequete($sql,array($idCategorie));
+        return $nom->fetch(); 
     }
 }

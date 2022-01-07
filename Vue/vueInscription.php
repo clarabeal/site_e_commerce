@@ -22,5 +22,4 @@
         <br/>
         <tr><td><input class="button" type="submit" name="validerInscription" value="S'inscrire">
     </table>
-
-</form>     
+</form>    

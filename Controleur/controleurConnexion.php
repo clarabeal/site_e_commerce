@@ -10,6 +10,7 @@ class ControleurConnexion{
         $this->connexion = new Connexion();
     }
 
+    // Affiche le formulaire de connexion
     public function connexion(){
         $vue=new Vue('Connexion');
         $vue->generer(array(NULL));

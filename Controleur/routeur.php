@@ -5,6 +5,7 @@ require_once 'Controleur/controleurCaracteristiques.php';
 require_once 'Controleur/controleurCategorie.php';
 require_once 'Controleur/controleurInscription.php';
 require_once 'Controleur/controleurConnexion.php';
+require_once 'Controleur/controleurPanier.php';
 require_once 'Vue/vue.php';
 
 class Routeur {
@@ -13,6 +14,7 @@ class Routeur {
   private $ctrlCategorie;
   private $ctrlInscription;
   private $ctrlConnexion;
+  private $ctrlPanier;
 
   public function __construct(){
     $this->ctrlAccueil = new ControleurAccueil();
@@ -20,6 +22,7 @@ class Routeur {
     $this->ctrlCategorie = new ControleurCategorie();
     $this->ctrlInscription = new ControleurInscription();
     $this->ctrlConnexion = new ControleurConnexion();
+    $this->ctrlPanier = new ControleurPanier();
   }
     
   //Traite une requête entrante
@@ -52,22 +55,27 @@ class Routeur {
 
               if($this->getParametre($_POST,'mdpInscription')==$this->getParametre($_POST,'confirmerMdpInscription')){
                 $pseudo=$this->getParametre($_POST,'pseudoInscription');
+                $email=$this->getParametre($_POST,'emailClient');
 
-                if($this->ctrlInscription->ctrlCheckAvaibility($pseudo)){
-                  $hashMdpInscription=sha1($this->getParametre($_POST,'mdpInscription'));
-                  $prenom=$this->getParametre($_POST,'prenomClient');
-                  $nom=$this->getParametre($_POST,'nomClient');
-                  $add1=$this->getParametre($_POST,'add1Client');
-                  $add2=$this->getParametre($_POST,'add2Client');
-                  $ville=$this->getParametre($_POST,'villeClient');
-                  $cp=$this->getParametre($_POST,'cpClient');
-                  $numTel=$this->getParametre($_POST,'numTelClient');
-                  $email=$this->getParametre($_POST,'emailClient');
+                if($this->ctrlInscription->ctrlCheckAvaibilityPseudo($pseudo)){ //Si le pseudo et l'adresse mail sont disponibles on peut créer le compte
+                  if($this->ctrlInscription->ctrlCheckAvaibilityEmail($email)){
+                    $hashMdpInscription=sha1($this->getParametre($_POST,'mdpInscription'));
+                    $prenom=$this->getParametre($_POST,'prenomClient');
+                    $nom=$this->getParametre($_POST,'nomClient');
+                    $add1=$this->getParametre($_POST,'add1Client');
+                    $add2=$this->getParametre($_POST,'add2Client');
+                    $ville=$this->getParametre($_POST,'villeClient');
+                    $cp=$this->getParametre($_POST,'cpClient');
+                    $numTel=$this->getParametre($_POST,'numTelClient');
 
-                  $this->ctrlInscription->ctrlRegister($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email,$pseudo,$hashMdpInscription);
-                  $_SESSION['logged']=true; //Une fois enregistré on connecte l'utilisateur
-                  $_SESSION['pseudo']=$pseudo;
-                  header('Location:index.php');
+                    $this->ctrlInscription->ctrlRegister($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email,$pseudo,$hashMdpInscription);
+                    $_SESSION['logged']=true; //Une fois enregistré on connecte l'utilisateur
+                    $_SESSION['pseudo']=$pseudo;
+                    header('Location:index.php');
+                  }
+                  else{
+                    throw new Exception("Email déjà utilisé");
+                  }
                 }
                 else{
                   throw new Exception("Utilisateur déjà existant");
@@ -78,12 +86,12 @@ class Routeur {
               }
             } 
           }
-          else{ //Si connecté, on le déconnecte
+          else{ //Si l'utilisateur est connecté, on le déconnecte
             $_SESSION['logged']=false;
             header('Location:index.php');
           }
         }
-        else if($_GET['action']='connexion'){
+        else if($_GET['action']=='connexion'){
           $this->ctrlConnexion->connexion();
           if(isset($_POST['validerConnexion'])){
 
@@ -99,6 +107,9 @@ class Routeur {
               throw new Exception("Utilisateur non enregistré");
             }
           }
+        }
+        else if($_GET['action']=='panier'){
+          $this->ctrlPanier->panier();
         }
         else{
           throw new Exception("Action non valide");

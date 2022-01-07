@@ -35,6 +35,9 @@
               echo ('<a style="margin-left:10px;" href=index.php?action=connexion class="buttn">');
               echo ('Connexion</a>');
             }
+
+            echo ('<a href=index.php?action=panier>');
+            echo ('Votre Panier</a>');
           ?>
         </div>
       </div>

@@ -12,3 +12,6 @@ Affichage du formulaire d'inscription
 
 # VueConnexion
 Affichage du formulaire de connexion
+
+# VuePanier
+Visualisation du panier du client et possibilité de passer la commande

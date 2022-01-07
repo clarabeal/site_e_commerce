@@ -16,9 +16,13 @@ class ControleurInscription {
         $vue->generer(array(NULL));
     }
 
-    public function ctrlCheckAvaibility($pseudo){
-       return $this->inscription->checkAvaibility($pseudo);
+    public function ctrlCheckAvaibilityPseudo($pseudo){
+       return $this->inscription->checkAvaibilityPseudo($pseudo);
     }
+
+    public function ctrlCheckAvaibilityEmail($email){
+        return $this->inscription->checkAvaibilityEmail($email);
+     }
 
     public function ctrlRegister($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email,$pseudo,$hashMdp){
         $this->inscription->register($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email,$pseudo,$hashMdp);

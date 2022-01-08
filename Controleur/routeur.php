@@ -99,7 +99,6 @@ class Routeur {
 
                 if($this->ctrlInscription->ctrlCheckAvaibilityPseudo($pseudo)){ //Si le pseudo et l'adresse mail sont disponibles on peut créer le compte
                   if($this->ctrlInscription->ctrlCheckAvaibilityEmail($email)){
-                    header('Location:index.php');
                     $hashMdpInscription=sha1($this->getParametre($_POST,'mdpInscription'));
                     $prenom=$this->getParametre($_POST,'prenomClient');
                     $nom=$this->getParametre($_POST,'nomClient');
@@ -112,6 +111,7 @@ class Routeur {
                     $this->ctrlInscription->ctrlRegister($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email,$pseudo,$hashMdpInscription);
                     $_SESSION['logged']=true; //Une fois enregistré on connecte l'utilisateur
                     $_SESSION['pseudo']=$pseudo;
+                    header('Location:index.php');
                   }
                   else{
                     throw new Exception("Email déjà utilisé");

@@ -29,6 +29,9 @@ class Routeur {
   public function routerRequete(){
     try {
       if(isset($_GET['action'])){
+        
+        // Caractéristiques //
+        
         if($_GET['action']=='details'){
 
           $idProduit=intval($this->getParametre($_GET,'idProduit')); //intval renvoie la valeur numerique du parametre ou 0 en cas d'echec
@@ -69,6 +72,9 @@ class Routeur {
             }
           }
         }
+        
+        // Catégories //
+        
         else if($_GET['action']=='categorie'){
           $id=intval($this->getParametre($_GET,'idCat'));
           if($id!=0){
@@ -78,6 +84,9 @@ class Routeur {
             throw new Exception("Identifiant de la catégorie incorrect");
           }
         }
+        
+        // INSCRIPTION //
+        
         else if($_GET['action']=='inscription'){
           if(!$_SESSION['logged']){ //Si l'utilisateur n'est pas connecté on affiche la page de connexion
             $this->ctrlInscription->inscription();
@@ -123,6 +132,9 @@ class Routeur {
             header('Location:index.php');
           }
         }
+        
+        // Connexion //
+        
         else if($_GET['action']=='connexion'){
           $this->ctrlConnexion->connexion();
           if(isset($_POST['validerConnexion'])){
@@ -140,6 +152,9 @@ class Routeur {
             }
           }
         }
+        
+        // Panier //
+        
         else if($_GET['action']=='panier'){
           $this->ctrlPanier->panier();
         }

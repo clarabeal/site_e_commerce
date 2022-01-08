@@ -8,6 +8,10 @@
 <p><?=$caracteristiques['description']; ?></p> 
 <p>Notre prix : <?=$caracteristiques['price']; ?> €</p> 
 
+<form action="index.php?action=details&idProduit=4" method="POST">
+    <input class="button" type="submit" name="ajoutPanier" value="Ajouter au panier">
+</form>
+
 
 
 

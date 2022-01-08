@@ -30,13 +30,41 @@ class Routeur {
     try {
       if(isset($_GET['action'])){
         if($_GET['action']=='details'){
-          $id=intval($this->getParametre($_GET,'idProduit')); //intval renvoie la valeur numerique du parametre ou 0 en cas d'echec
-          if($id!=0){
-            $this->ctrlCaracteristiques->caracteristiques($id);
+
+          $idProduit=intval($this->getParametre($_GET,'idProduit')); //intval renvoie la valeur numerique du parametre ou 0 en cas d'echec
+          
+          if($idProduit!=0){
+            $this->ctrlCaracteristiques->caracteristiques($idProduit);
           }
           else{
             throw new Exception("Identifiant du produit incorrect");
-          } 
+          }
+          
+          if(isset($_POST['ajoutPanier'])){
+
+            if($_SESSION['logged']){
+
+              $pseudoClient=$this->getParametre($_SESSION,'pseudo'); //Marche pas
+              $idClient=$this->ctrlConnexion->ctrlGetCustomerId($pseudoClient); //Marche pas
+
+              if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)){ //On regarde si l'utilisateur a une commande en cours
+                $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+                $this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit);
+                header('Location:index.php?action=panier');
+              }
+              else{
+                //Si l'utilisateur n'a pas de commande en cours il faut en créer une
+                $this->ctrlCaracteristiques->ctrlCreateOrder($idClient);
+
+                $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+                $this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit);
+                header('Location:index.php?action=panier');
+              }
+            }
+            else{
+              throw new Exception("Connectez vous avant d'acheter");
+            }
+          }
         }
         else if($_GET['action']=='categorie'){
           $id=intval($this->getParametre($_GET,'idCat'));
@@ -88,6 +116,7 @@ class Routeur {
           }
           else{ //Si l'utilisateur est connecté, on le déconnecte
             $_SESSION['logged']=false;
+            $_SESSION['pseudo']=NULL;
             header('Location:index.php');
           }
         }

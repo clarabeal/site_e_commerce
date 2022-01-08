@@ -77,7 +77,7 @@
             <input type="email" class="form-control" name="emailClient" required>
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-danger px-5 mb-3">S'inscrire</button>
+            <button type="submit" class="btn btn-danger px-5 mb-3" name="validerInscription">S'inscrire</button>
           </div>
         </form>
       </div>

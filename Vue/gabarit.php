@@ -33,7 +33,6 @@
               echo ('<a style="margin-left:10px;" href=index.php?action=connexion class="buttn">');
               echo ('Connexion</a>');
             }
-
             echo ('<a style="margin-left:10px;" href=index.php?action=panier class="buttn-panier">');
             echo ('<img src="Contenu/Images/logo-panier.png" style="width:45px; height:45px;"></a>');
           ?>

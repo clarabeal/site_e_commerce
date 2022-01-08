@@ -7,7 +7,6 @@
   font-family: "Spirax";
   src: url("Spirax.ttf");
 }
-
 .buttn {
   color: rgb(230, 106, 106);
   border: solid 2px rgb(230, 106, 106);
@@ -19,9 +18,20 @@
   transition: 0.3s;
 }
 
-.buttn:hover {
+.buttn-panier {
+  color: rgb(230, 106, 106);
+  border: solid 2px rgb(230, 106, 106);
+  border-radius: 40px;
+  text-decoration: none;
+  font-family: "Orkney";
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.buttn:hover, .buttn-panier:hover {
   color : white;
   border-color: white;
+  filter: brightness(3);
 }
 
 .boxed {
@@ -39,5 +49,9 @@
 .img-prod {
   height:300px;
   width:300px;
+}
+
+.vert-sep {
+  box-shadow: 0 30px 40px rgba(0,0,0,.3);
 }
 

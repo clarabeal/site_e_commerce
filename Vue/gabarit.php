@@ -13,15 +13,13 @@
   </head>
   <body style="background: rgb(45,45,45);">
     <div class="container-fluid">
-      <div id="menu" class="row align-items-center fixed-top" 
+      <div id="menu" class="row fixed-top justify-content-between" 
            style="background-color: rgb(35,35,35);">
-        <div class="col-8 ms-3 d-flex">
-          <img src="Contenu/Images/logo.png" style="width: 150px; height: 100px;">
-          <div class="row align-content-center">
-            <a href="index.php" class="text-decoration-none"><h1 class="fst-italic fw-bold" style="letter-spacing:3px; font-family: Serif; color: rgb(230, 106, 106); text-shadow: 1px 1px 2px rgb(113, 54, 156);">Web 4 Shop</h1></a>
-          </div>
+        <div class="col">
+          <a href="index.php" class="text-decoration-none d-inline-flex">
+          <img src="Contenu/Images/logo.png" style="width: 150px; height: 100px;"><h1 class="fst-italic fw-bold my-auto d-none d-md-block" style="letter-spacing:3px; font-family: Serif; color: rgb(230, 106, 106); text-shadow: 1px 1px 2px rgb(113, 54, 156);">Web 4 Shop</h1></a>
         </div>
-        <div class="col-3 text-center">
+        <div class="col text-center d-flex justify-content-end align-items-center me-3">
           <?php
             if($_SESSION['logged']){
               echo ('<a href=index.php?action=moncompte class="buttn text-uppercase">');
@@ -36,8 +34,8 @@
               echo ('Connexion</a>');
             }
 
-            echo ('<a href=index.php?action=panier>');
-            echo ('Votre Panier</a>');
+            echo ('<a style="margin-left:10px;" href=index.php?action=panier class="buttn-panier">');
+            echo ('<img src="Contenu/Images/logo-panier.png" style="width:45px; height:45px;"></a>');
           ?>
         </div>
       </div>

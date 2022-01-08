@@ -42,7 +42,7 @@
 
 <div class="row">
   <div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">
-  <?php for($i = 0; $i < count($produits); $i = $i + 2): ?>
+  <?php for($i = 0; $i < count($produits); $i = $i + 3): ?>
     <div class="row">
       <div class="col d-flex justify-content-center text-center m-5">
         <div class="boxed">
@@ -53,12 +53,22 @@
         </div>
       </div>
       <div class="col d-flex justify-content-center text-center m-5">
-        <?php if($i < count($produits)-1): ?>
+        <?php if($i+1 < count($produits)): ?>
           <div class="boxed">
             <a class="text-decoration-none" href="<?= "index.php?action=details&idProduit=".$produits[$i+1]['id'] ?>">
             <img class="img-prod" src="<?= "Contenu/Images/".$produits[$i+1]['image']?>">
             <p><?=$produits[$i+1]['name']?></p></a>
             <p>Notre prix : <?=$produits[$i+1]['price']; ?> €</p>
+          </div>
+        <?php endif;?>
+      </div>
+      <div class="col d-flex justify-content-center text-center m-5">
+        <?php if($i+2 < count($produits)): ?>
+          <div class="boxed">
+            <a class="text-decoration-none" href="<?= "index.php?action=details&idProduit=".$produits[$i+2]['id'] ?>">
+            <img class="img-prod" src="<?= "Contenu/Images/".$produits[$i+1]['image']?>">
+            <p><?=$produits[$i+2]['name']?></p></a>
+            <p>Notre prix : <?=$produits[$i+2]['price']; ?> €</p>
           </div>
         <?php endif;?>
       </div>

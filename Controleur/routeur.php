@@ -44,11 +44,13 @@ class Routeur {
 
             if($_SESSION['logged']){
 
-              $pseudoClient=$this->getParametre($_SESSION,'pseudo'); //Marche pas
-              $idClient=$this->ctrlConnexion->ctrlGetCustomerId($pseudoClient); //Marche pas
+              $pseudoClient=$this->getParametre($_SESSION,'pseudo');
+              $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient); //Marche pas
+              $idClient=$client['customer_id'];
 
               if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)){ //On regarde si l'utilisateur a une commande en cours
-                $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+                $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+                $idCommande=$commande['id'];
                 $this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit);
                 header('Location:index.php?action=panier');
               }
@@ -56,7 +58,8 @@ class Routeur {
                 //Si l'utilisateur n'a pas de commande en cours il faut en créer une
                 $this->ctrlCaracteristiques->ctrlCreateOrder($idClient);
 
-                $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+                $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+                $idCommande=$commande['id'];
                 $this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit);
                 header('Location:index.php?action=panier');
               }

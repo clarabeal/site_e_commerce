@@ -10,11 +10,4 @@ class Connexion extends Modele {
         $resultat=$this->executerRequete($sql,array($pseudo,$hashMdp));
         return ($resultat->RowCount()==1);
     }
-
-    //Renvoie customer_id du customer
-    public function getCustomerId($pseudo){
-        $sql='SELECT customer_id FROM logins WHERE username=?';
-        $customerId = $this->executerRequete($sql,array($pseudo));
-        return $customerId->fetch();
-    }
 }

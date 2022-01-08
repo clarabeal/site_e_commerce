@@ -38,6 +38,8 @@
 
             echo ('<a href=index.php?action=panier>');
             echo ('Votre Panier</a>');
+
+            echo $_SESSION["pseudo"];
           ?>
         </div>
       </div>

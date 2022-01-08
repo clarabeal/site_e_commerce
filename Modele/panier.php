@@ -14,8 +14,8 @@ class Panier extends Modele {
     //Renvoie l'identifiant de la commande 
     public function getIdOrder($idClient){
         $sql='SELECT id FROM orders WHERE customer_id=? AND status=0';
-        $idOrder=$this->executerRequete($sql,array($idClient));
-        return $idOrder->fetch();
+        $idCommande=$this->executerRequete($sql,array($idClient));
+        return $idCommande->fetch();
     }
 
     //Insère une nouvelle commande dans la table orders
@@ -28,5 +28,12 @@ class Panier extends Modele {
     public function addProduct($idCommande,$idProduit){
         $sql='INSERT INTO orderitems VALUES (NULL,?,?,1)';
         $this->executerRequete($sql,array($idCommande,$idProduit));
+    }
+
+    //Renvoie customer_id du customer
+    public function getCustomerId($pseudo){
+        $sql='SELECT customer_id FROM logins WHERE username=?';
+        $idClient = $this->executerRequete($sql,array($pseudo));
+        return $idClient->fetch();
     }
 }

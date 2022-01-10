@@ -35,8 +35,8 @@
 }
 
 .boxed {
-  height: 400px;
-  width: 400px;
+  height: 300px;
+  width: 300px;
   transition: 0.3s;
   z-index: 10;
   border-radius: 12px;
@@ -47,8 +47,8 @@
 }
 
 .img-prod {
-  height:300px;
-  width:300px;
+  height:200px;
+  width:200px;
 }
 
 .vert-sep {

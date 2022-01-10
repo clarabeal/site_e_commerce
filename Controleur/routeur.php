@@ -111,7 +111,7 @@ class Routeur {
                     $this->ctrlInscription->ctrlRegister($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email,$pseudo,$hashMdpInscription);
                     $_SESSION['logged']=true; //Une fois enregistré on connecte l'utilisateur
                     $_SESSION['pseudo']=$pseudo;
-                    header('Location:index.php');
+                    echo('<script> location.replace("index.php"); </script>');
                   }
                   else{
                     throw new Exception("Email déjà utilisé");
@@ -129,7 +129,7 @@ class Routeur {
           else{ //Si l'utilisateur est connecté, on le déconnecte
             $_SESSION['logged']=false;
             $_SESSION['pseudo']=NULL;
-            header('Location:index.php');
+             echo('<script> location.replace("index.php"); </script>');
           }
         }
         

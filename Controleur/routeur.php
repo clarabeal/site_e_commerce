@@ -6,6 +6,7 @@ require_once 'Controleur/controleurCategorie.php';
 require_once 'Controleur/controleurInscription.php';
 require_once 'Controleur/controleurConnexion.php';
 require_once 'Controleur/controleurPanier.php';
+require_once 'Controleur/controleurMonCompte.php';
 require_once 'Vue/vue.php';
 
 class Routeur {
@@ -15,6 +16,7 @@ class Routeur {
   private $ctrlInscription;
   private $ctrlConnexion;
   private $ctrlPanier;
+  private $ctrlMonCompte;
 
   public function __construct(){
     $this->ctrlAccueil = new ControleurAccueil();
@@ -23,6 +25,7 @@ class Routeur {
     $this->ctrlInscription = new ControleurInscription();
     $this->ctrlConnexion = new ControleurConnexion();
     $this->ctrlPanier = new ControleurPanier();
+    $this->ctrlMonCompte = new ControleurMonCompte();
   }
     
   //Traite une requête entrante
@@ -149,7 +152,7 @@ class Routeur {
               exit();
             }
             else{
-              throw new Exception("Utilisateur non enregistré");
+              throw new Exception("Mauvais pseudo/mot de passe");
             }
           }
         }
@@ -158,6 +161,12 @@ class Routeur {
         
         else if($_GET['action']=='panier'){
           $this->ctrlPanier->panier();
+        }
+        
+        // Mon compte //
+        
+        else if($_GET['action']=='moncompte') {
+          $this->ctrlMonCompte->monCompte();
         }
         else{
           throw new Exception("Action non valide");

@@ -37,7 +37,7 @@ class ControleurCaracteristiques {
     }
 
     public function ctrlAddProduct($idCommande,$idProduit){
-        $this->panier->addProduct($idCommande,$idProduit);
+        return $this->panier->addProduct($idCommande,$idProduit);
     }
 
     public function ctrlGetCustomerId($pseudo){

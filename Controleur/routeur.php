@@ -251,8 +251,8 @@ class Routeur {
             header('Location:index.php');
             //header('Location:index.php?action=paiement');
           }
-          else if(isset($_POST['validerAdresse'])){
-            
+          else if(isset($_POST['validerAdresse'])){ //Marche pas
+
             $pseudoClient=$this->getParametre($_SESSION,'pseudo');
             $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
             $idClient=$client['customer_id'];

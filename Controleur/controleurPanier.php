@@ -1,6 +1,5 @@
 <?php
 
-require_once 'Modele/produit.php';
 require_once 'Modele/panier.php';
 require_once 'Vue/Vue.php';
 

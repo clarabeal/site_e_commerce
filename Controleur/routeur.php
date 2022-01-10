@@ -169,23 +169,32 @@ class Routeur {
           $this->ctrlMonCompte->monCompte();
           
           // Change le mdp du compte si l'utilisateur l'utilise correctement
-          if(isset($_POST['validerChgtMdp']) && isset($_SESSION['logged']) {
+          if(isset($_POST['validerChgtMdp']) && isset($_SESSION['logged'])) {
             
             $newMdp=$this->getParametre($_POST,'newMdp');
             $confirmNewMdp=$this->getParametre($_POST,'confirmNewMdp');
             
-            if($this->newMdp==$this->confirmNewMdp) {
+            if($newMdp==$confirmNewMdp) {
               
               $pseudo=$this->getParametre($_SESSION,'pseudo');
-              $oldHashMdp->sha1($this->getParametre($_POST,'oldMdp'));
-              if($this->ctrlMonCompte->actualHashMdp($pseudo)==$this->oldHashMdp) {
+              $oldHashMdp=sha1($this->getParametre($_POST,'oldMdp'));
+              if($this->ctrlMonCompte->ctrlCheckMdp($pseudo,$oldHashMdp)) {
                 
-                $newHashMdp=sha1($this->$newMdp);
-                $this->$ctrlMonCompte->changePass($pseudo,$newHashMdp);
+              	$newHashMdp=sha1($this->$newMdp);
+                $this->$ctrlMonCompte->ctrlChangePass($pseudo,$newHashMdp);
+              } else {
+                echo($oldHashMdp);
+                throw new Exception("Mauvais ancien mot de passe");
               } 
+            } else {
+              throw new Exception("Le nouveau mot de passe doit être le même que celui confirmé");
             }
           }
         }
+             
+        // Action non valide //
+             
+             
         else{
           throw new Exception("Action non valide");
         }

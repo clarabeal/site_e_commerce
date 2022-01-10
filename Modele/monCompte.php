@@ -9,6 +9,16 @@ class MonCompte extends Modele {
     public function changePass($pseudo,$hashMdp){
         $sql='UPDATE logins SET password=? WHERE pseudo=?';
         $resultat=$this->executerRequete($sql,array($hashMdp,$pseudo));
-        return ($resultat->RowCount()==1);
     }
+  
+    public function checkMdp($pseudo, $oldHashMdp) {
+        $sql='SELECT password FROM logins WHERE username=?';
+        $res=$this->executerRequete($sql,array($pseudo))->fetch();
+        if($res == $oldHashMdp) {
+          return true;
+        } else {
+          return false;
+        }
+    }
+  
 }

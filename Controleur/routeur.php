@@ -51,7 +51,7 @@ class Routeur {
             if($_SESSION['logged']){
 
               $pseudoClient=$this->getParametre($_SESSION,'pseudo');
-              $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient); //Marche pas
+              $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
               $idClient=$client['customer_id'];
 
               if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)){ //On regarde si l'utilisateur a une commande en cours
@@ -88,7 +88,7 @@ class Routeur {
           }
         }
         
-        // INSCRIPTION //
+        // Inscription //
         
         else if($_GET['action']=='inscription'){
           if(!$_SESSION['logged']){ //Si l'utilisateur n'est pas connecté on affiche la page de connexion
@@ -160,7 +160,21 @@ class Routeur {
         // Panier //
         
         else if($_GET['action']=='panier'){
-          $this->ctrlPanier->panier();
+
+          if($_SESSION['logged']){
+            $pseudoClient=$this->getParametre($_SESSION,'pseudo');
+
+            $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
+            $idClient=$client['customer_id'];
+
+            $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+            $idCommande=$commande['id'];
+
+            $this->ctrlPanier->panierConnect($idCommande);
+          }
+          else{
+            $this->ctrlPanier->panier();
+          }
         }
         
         // Mon compte //

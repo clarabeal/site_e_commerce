@@ -20,8 +20,9 @@ class Panier extends Modele {
 
     //Insère une nouvelle commande dans la table orders
     public function createOrder($idClient){
-        $sql='INSERT INTO orders VALUES (NULL,?,1,NULL,NULL,NULL,0,0,NULL)';
-        $this->executerRequete($sql,array($idClient));
+        $sql='INSERT INTO orders VALUES (NULL,?,1,NULL,NULL,?,0,0,NULL)';
+        $date=date("Y")."-".date("m")."-".date("j");
+        $this->executerRequete($sql,array($idClient,$date));
     }
 
     //Insère un produit dans orderitems
@@ -35,5 +36,12 @@ class Panier extends Modele {
         $sql='SELECT customer_id FROM logins WHERE username=?';
         $idClient = $this->executerRequete($sql,array($pseudo));
         return $idClient->fetch();
+    }
+
+    //Renvoie les caractéristiques des produits présents dans la commande
+    public function getProductsOrder($idCommande){
+        $sql='SELECT P.name, P.image, P.price, O.quantity FROM orderitems O JOIN products P ON O.product_id=P.id WHERE O.order_id=?';
+        $idProduits = $this->executerRequete($sql,array($idCommande));
+        return $idProduits->fetchAll();
     }
 }

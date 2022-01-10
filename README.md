@@ -15,3 +15,6 @@ Affichage du formulaire de connexion
 
 # VuePanier
 Visualisation du panier du client et possibilité de passer la commande
+
+# VueMonCompte
+Affichage des commandes en cours et possible de modifier mot de passe

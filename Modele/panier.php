@@ -27,8 +27,24 @@ class Panier extends Modele {
 
     //Insère un produit dans orderitems
     public function addProduct($idCommande,$idProduit){
-        $sql='INSERT INTO orderitems VALUES (NULL,?,?,1)';
-        $this->executerRequete($sql,array($idCommande,$idProduit));
+        $resultat=$this->productInOrder($idCommande,$idProduit);
+        $quantite=$resultat['quantity'];
+
+        if($quantite!=0){ //Si il y a déjà le produit
+            $sql='UPDATE orderitems SET quantity=2 WHERE order_id=? AND product_id=?';
+            $this->executerRequete($sql,array($idCommande,$idProduit));
+        }
+        else{ //On ajoute le produit avec une quantité 1
+            $sql='INSERT INTO orderitems VALUES (NULL,?,?,1)';
+            $this->executerRequete($sql,array($idCommande,$idProduit));
+        }
+    }
+
+    // Renvoie la quantité du produit dans la commande
+    public function productInOrder($idCommande,$idProduit){
+        $sql='SELECT quantity FROM orderitems WHERE order_id=? AND product_id =?';
+        $quantite = $this->executerRequete($sql,array($idCommande,$idProduit));
+        return $quantite->fetch();
     }
 
     //Renvoie customer_id du customer

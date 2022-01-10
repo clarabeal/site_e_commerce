@@ -13,4 +13,5 @@ if($_SESSION['logged']){
   <img src="<?= "Contenu/Images/".$produit['image']?>">
   <p><?=$produit['name']?></p></a>
   <p>Prix : <?=$produit['price']; ?> €</p>
+  <p>Quantité : <?=$produit['quantity']; ?></p>
 <?php endforeach ?>

@@ -27,4 +27,4 @@ $total=0;
 
 <p>Prix total de la commande : <?=$total?> €</p>
 
-<a href="index.php?action=saisirAdresse&prixTotal=".$total class="buttn">Passer la commande</a>
+<a href="index.php?action=saisirAdresse" class="buttn">Passer la commande</a>

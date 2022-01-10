@@ -235,6 +235,34 @@ class Routeur {
 
           $this->ctrlAdresse->adresse($idClient);
 
+          if(isset($_POST['validerNewAdresse'])){
+            //On créé une nouvelle adresse dans delivery_addresses avec les valeurs du formulaire
+            $prenom=$this->getParametre($_POST,'prenomClient');
+            $nom=$this->getParametre($_POST,'nomClient');
+            $add1=$this->getParametre($_POST,'add1Client');
+            $add2=$this->getParametre($_POST,'add2Client');
+            $ville=$this->getParametre($_POST,'villeClient');
+            $cp=$this->getParametre($_POST,'cpClient');
+            $numTel=$this->getParametre($_POST,'numTelClient');
+            $email=$this->getParametre($_POST,'emailClient');
+
+            $this->ctrlAdresse->ctrlCreateNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email);
+
+            header('Location:index.php');
+            //header('Location:index.php?action=paiement');
+          }
+          else if(isset($_POST['validerAdresse'])){
+            
+            $pseudoClient=$this->getParametre($_SESSION,'pseudo');
+            $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
+            $idClient=$client['customer_id'];
+
+            $this->ctrlAdresse->ctrlCreateAdd($idClient);
+
+            header('Location:index.php');
+            //header('Location:index.php?action=paiement');
+          }
+
           //Pas oublier de changer état à la fin
         }
              

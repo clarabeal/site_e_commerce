@@ -192,7 +192,7 @@ class Routeur {
               }
             }
           } else {
-            throw new Exception("Action non valide");
+            header('Location:index.php');
           }
         }
              

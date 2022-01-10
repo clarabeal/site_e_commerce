@@ -180,10 +180,9 @@ class Routeur {
               $oldHashMdp=sha1($this->getParametre($_POST,'oldMdp'));
               if($this->ctrlMonCompte->ctrlCheckMdp($pseudo,$oldHashMdp)) {
                 
-              	$newHashMdp=sha1($this->$newMdp);
-                $this->$ctrlMonCompte->ctrlChangePass($pseudo,$newHashMdp);
+              	$newHashMdp=sha1($newMdp);
+                $this->ctrlMonCompte->ctrlChangePass($pseudo,$newHashMdp);
               } else {
-                echo($oldHashMdp);
                 throw new Exception("Mauvais ancien mot de passe");
               } 
             } else {

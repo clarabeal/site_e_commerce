@@ -132,7 +132,7 @@ class Routeur {
           else{ //Si l'utilisateur est connecté, on le déconnecte
             $_SESSION['logged']=false;
             $_SESSION['pseudo']=NULL;
-             echo('<script> location.replace("index.php"); </script>');
+            echo('<script> location.replace("index.php"); </script>');
           }
         }
         
@@ -168,26 +168,31 @@ class Routeur {
         else if($_GET['action']=='moncompte') {
           $this->ctrlMonCompte->monCompte();
           
-          // Change le mdp du compte si l'utilisateur l'utilise correctement
-          if(isset($_POST['validerChgtMdp']) && isset($_SESSION['logged'])) {
-            
-            $newMdp=$this->getParametre($_POST,'newMdp');
-            $confirmNewMdp=$this->getParametre($_POST,'confirmNewMdp');
-            
-            if($newMdp==$confirmNewMdp) {
-              
-              $pseudo=$this->getParametre($_SESSION,'pseudo');
-              $oldHashMdp=sha1($this->getParametre($_POST,'oldMdp'));
-              if($this->ctrlMonCompte->ctrlCheckMdp($pseudo,$oldHashMdp)) {
-                
-              	$newHashMdp=sha1($newMdp);
-                $this->ctrlMonCompte->ctrlChangePass($pseudo,$newHashMdp);
+          if($_SESSION['logged']) {
+          
+            // Change le mdp du compte si l'utilisateur l'utilise correctement
+            if(isset($_POST['validerChgtMdp'])) {
+
+              $newMdp=$this->getParametre($_POST,'newMdp');
+              $confirmNewMdp=$this->getParametre($_POST,'confirmNewMdp');
+
+              if($newMdp==$confirmNewMdp) {
+
+                $pseudo=$this->getParametre($_SESSION,'pseudo');
+                $oldHashMdp=sha1($this->getParametre($_POST,'oldMdp'));
+                if($this->ctrlMonCompte->ctrlCheckMdp($pseudo,$oldHashMdp)) {
+
+                  $newHashMdp=sha1($newMdp);
+                  $this->ctrlMonCompte->ctrlChangePass($pseudo,$newHashMdp);
+                } else {
+                  throw new Exception("Mauvais ancien mot de passe");
+                } 
               } else {
-                throw new Exception("Mauvais ancien mot de passe");
-              } 
-            } else {
-              throw new Exception("Le nouveau mot de passe doit être le même que celui confirmé");
+                throw new Exception("Le nouveau mot de passe doit être le même que celui confirmé");
+              }
             }
+          } else {
+            throw new Exception("Action non valide");
           }
         }
              

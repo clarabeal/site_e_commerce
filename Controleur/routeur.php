@@ -167,6 +167,24 @@ class Routeur {
         
         else if($_GET['action']=='moncompte') {
           $this->ctrlMonCompte->monCompte();
+          
+          // Change le mdp du compte si l'utilisateur l'utilise correctement
+          if(isset($_POST['validerChgtMdp']) && isset($_SESSION['logged']) {
+            
+            $newMdp=$this->getParametre($_POST,'newMdp');
+            $confirmNewMdp=$this->getParametre($_POST,'confirmNewMdp');
+            
+            if($this->newMdp==$this->confirmNewMdp) {
+              
+              $pseudo=$this->getParametre($_SESSION,'pseudo');
+              $oldHashMdp->sha1($this->getParametre($_POST,'oldMdp'));
+              if($this->ctrlMonCompte->actualHashMdp($pseudo)==$this->oldHashMdp) {
+                
+                $newHashMdp=sha1($this->$newMdp);
+                $this->$ctrlMonCompte->changePass($pseudo,$newHashMdp);
+              } 
+            }
+          }
         }
         else{
           throw new Exception("Action non valide");

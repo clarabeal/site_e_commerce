@@ -18,3 +18,6 @@ Visualisation du panier du client et possibilité de passer la commande
 
 # VueMonCompte
 Affichage des commandes en cours et possible de modifier mot de passe
+
+# VueSaisieAdresse
+Permet à l'utilisateur de rentrer une nouvelle adresse ou d'utiliser celle de son compte

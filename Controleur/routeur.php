@@ -7,6 +7,7 @@ require_once 'Controleur/controleurInscription.php';
 require_once 'Controleur/controleurConnexion.php';
 require_once 'Controleur/controleurPanier.php';
 require_once 'Controleur/controleurMonCompte.php';
+require_once 'Controleur/controleurAdresse.php';
 require_once 'Vue/vue.php';
 
 class Routeur {
@@ -17,6 +18,7 @@ class Routeur {
   private $ctrlConnexion;
   private $ctrlPanier;
   private $ctrlMonCompte;
+  private $ctrlAdresse;
 
   public function __construct(){
     $this->ctrlAccueil = new ControleurAccueil();
@@ -26,6 +28,7 @@ class Routeur {
     $this->ctrlConnexion = new ControleurConnexion();
     $this->ctrlPanier = new ControleurPanier();
     $this->ctrlMonCompte = new ControleurMonCompte();
+    $this->ctrlAdresse = new ControleurAdresse();
   }
     
   //Traite une requête entrante
@@ -72,7 +75,7 @@ class Routeur {
 
                 $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
                 $idCommande=$commande['id'];
-                
+
                 if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit)){
                   header('Location:index.php?action=panier');
                 }
@@ -220,9 +223,22 @@ class Routeur {
             header('Location:index.php');
           }
         }
+
+        // Adresse //
+
+        else if($_GET['action']=='saisirAdresse'){
+
+          $pseudoClient=$this->getParametre($_SESSION,'pseudo');
+
+          $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
+          $idClient=$client['customer_id'];
+
+          $this->ctrlAdresse->adresse($idClient);
+
+          //Pas oublier de changer état à la fin
+        }
              
         // Action non valide //
-             
              
         else{
           throw new Exception("Action non valide");

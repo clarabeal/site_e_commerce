@@ -36,8 +36,11 @@ class Panier extends Modele {
             $quantite=$resultat['quantity'];
 
             if($quantite!=0){ //Si il y a déjà le produit dans le panier
-                $sql='UPDATE orderitems SET quantity=2 WHERE order_id=? AND product_id=?';
-                $this->executerRequete($sql,array($idCommande,$idProduit));
+
+                $quantite++;
+
+                $sql='UPDATE orderitems SET quantity=? WHERE order_id=? AND product_id=?';
+                $this->executerRequete($sql,array($quantite,$idCommande,$idProduit));
             }
             else{ //On ajoute le produit avec une quantité 1
                 $sql='INSERT INTO orderitems VALUES (NULL,?,?,1)';
@@ -78,7 +81,7 @@ class Panier extends Modele {
     //Renvoie le stock d'un produit
     public function checkQuantity($idProduit){
         $sql='SELECT quantity FROM products WHERE id=?';
-        $quantite=$this->executerRequete($idProduit);
+        $quantite=$this->executerRequete($sql,array($idProduit));
         return $quantite->fetch();
     }
 

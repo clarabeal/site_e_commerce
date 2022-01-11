@@ -1,37 +1,38 @@
-### Web 4 shop
+# Web 4 shop
 
 Projet réalisé par Julian DEGUT et Clara BEAL
 
-# Organisation
+## Organisation
 
 Répartition du travail : Frontend Julian, Backend Clara
 
-# Difficultés rencontrées et solutions
+## Difficultés rencontrées et solutions
 
-- Passage de l'architecture MVC simple à l'architecture MVC orientée objet
+- Passage de l'architecture MVC simple à l'architecture MVC orientée objet <br />
+Etant donné qu'il était impossible de faire des tests durant le passage à une architecture orientée objet, une fois l'implémentation des classes fini, il était difficile de savoir quand est-ce que nous avions fait une erreur
 
-# Architecture du site
-- VueAccueil
-  Affichage de tous les produits avec nom et prix
+- Que les utilisateurs non connectés puissent acheter <br />
+Nous n'avons pas eu le temps d'apprendre à gérer l'id de session, nous avons préféré consacrer ce temps à développer plus de fonctionnalités pour notre site et donc rendre les commandes possibles seulement pour les clients connectés
 
-- VueCaracteristiques
-Affichage d'un produit avec toutes ses caractéristiques : nom, catégorie(enlever?), description, prix
+- Affichage des quantités en fonction du stock
+Difficile d'afficher les quantités tout en les mettant à jour suite aux commandes. Il n'est donc pas possible de choisir une quantité supérieure à 1 avant de mettre le produit dans le panier.
+Le client peut cependant ajouter le produit plusieurs fois dans son panier s'il veut plusieurs exemplaires de celui-ci.
 
-# VueCategorie
-Affichage des produits d'une catégorie selectionnée avec nom et prix
 
-# VueInscription
-Affichage du formulaire d'inscription
+## Architecture du site
+- VueAccueil : affichage de tous les produits avec nom et prix
 
-# VueConnexion
-Affichage du formulaire de connexion
+- VueCaracteristiques : affichage d'un produit avec toutes ses caractéristiques : nom, catégorie, description, prix
 
-# VuePanier
-Visualisation du panier du client et possibilité de passer la commande
+- VueCategorie : affichage des produits d'une catégorie selectionnée avec nom et prix
 
-# VueMonCompte
-Affichage des commandes en cours et possible de modifier mot de passe
+- VueInscription : affichage du formulaire d'inscription
 
-# VueAdresse
-Permet à l'utilisateur de rentrer une nouvelle adresse ou d'utiliser celle de son compte
+- VueConnexion : affichage du formulaire de connexion
+
+- VuePanier : visualisation du panier du client et possibilité de passer la commande
+
+- VueMonCompte : Possible de modifier son mot de passe
+
+- VueAdresse : permet à l'utilisateur de rentrer une nouvelle adresse ou d'utiliser celle de son compte
 

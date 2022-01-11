@@ -189,15 +189,11 @@ class Routeur {
             $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
             $idCommande=$commande['id'];
 
-<<<<<<< HEAD
-            $this->ctrlPanier->panierConnect($idCommande);
+            $this->ctrlPanier->panierConnect($idClient,$idCommande);
             
             if(isset($_POST['viderPanier'])) {
               $this->ctrlPanier->ctrlViderPanier($idCommande);
             }
-=======
-            $this->ctrlPanier->panierConnect($idClient,$idCommande);
->>>>>>> 114297d2220570b67d4ca194bb9dbb284d5bd28a
           }
           else{
             $this->ctrlPanier->panier();

@@ -17,8 +17,8 @@ class ControleurAdresse{
         $vue->generer(array('info'=>$info));
     }
 
-    public function ctrlCreateNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email){
-        return $this->adresse->createNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email);
+    public function ctrlCreateNewAdd($idCommande,$prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email){
+        return $this->adresse->createNewAdd($idCommande,$prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email);
     }
 
     public function ctrlCreateAdd($idClient){

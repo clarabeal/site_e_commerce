@@ -12,13 +12,13 @@ class Adresse extends Modele{
     }
 
     //Remplit delivery_addresses avec valeurs du formulaire et renvoie l'id de celle ci
-    public function createNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email){
-        $sql='INSERT INTO delivery_addresses VALUES (NULL,?,?,?,?,?,?,?,?)';
-        $this->executerRequete($sql,array($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email));
+    public function createNewAdd($idCommande,$prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email){
+        $sql='INSERT INTO delivery_addresses VALUES (NULL,?,?,?,?,?,?,?,?,?)';
+        $this->executerRequete($sql,array($idCommande,$prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email));
 
         //On souhaite retourner l'id de l'adresse pour remplir table orders
-        $sql='SELECT id FROM delivery_addresses WHERE phone=?';
-        $idAdr=$this->executerRequete($sql,array($numTel));
+        $sql='SELECT id FROM delivery_addresses WHERE order_id=?';
+        $idAdr=$this->executerRequete($sql,array($idCommande));
         return $idAdr->fetch();
     }
 
@@ -30,7 +30,7 @@ class Adresse extends Modele{
 
     //Remplit delivery_adresses avec valeurs de customers(probleme pour l'id)
     public function createAdd($idClient){
-        $sql='INSERT INTO delivery_addresses(id, firstname,lastname,add1,add2,city,postcode,phone,email) SELECT id,forname,surname,add1,add2,add3,postcode,phone,email FROM customers WHERE id=?';
+        $sql='INSERT INTO delivery_addresses(id, order_id, firstname,lastname,add1,add2,city,postcode,phone,email) SELECT id,forname,surname,add1,add2,add3,postcode,phone,email FROM customers WHERE id=?';
         $this->executerRequete($sql,array($idClient));
     }
 

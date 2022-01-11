@@ -24,4 +24,8 @@ class ControleurPanier {
         $vue=new Vue('Panier');
         $vue->generer(array(NULL));
     }
+  
+    public function ctrlViderPanier($idCommande) {
+      return $this->panier->viderPanier($idCommande);
+    }
 }

@@ -68,10 +68,12 @@ class Routeur {
 
                 //On vérifie qu'il n'y a pas de problème de stock
                 if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
-                  #header('Location:index.php?action=panier');
+                  #header('Location:index.php?action=panier');*
+                  echo('fuck yes');
+                  
                 }
                 else{
-                  throw new Exception("Produit en rupture de stock");
+                  throw new Exception("Produit en rupture de stock/en quantité insuffisante");
                 }
               }
               else{
@@ -85,7 +87,7 @@ class Routeur {
                   header('Location:index.php?action=panier');
                 }
                 else{
-                  throw new Exception("Produit en rupture de stock");
+                  throw new Exception("Produit en rupture de stock/en quantité insuffisante");
                 }
               }
             }
@@ -193,6 +195,7 @@ class Routeur {
             
             if(isset($_POST['viderPanier'])) {
               $this->ctrlPanier->ctrlViderPanier($idCommande);
+              header('Location:index.php?action=panier');
             }
           }
           else{
@@ -241,6 +244,9 @@ class Routeur {
 
           $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
           $idClient=$client['customer_id'];
+          
+          $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+          $idCommande=$commande['id'];
 
           $this->ctrlAdresse->adresse($idClient);
 
@@ -255,7 +261,7 @@ class Routeur {
             $numTel=$this->getParametre($_POST,'numTelClient');
             $email=$this->getParametre($_POST,'emailClient');
 
-            $resultat = $this->ctrlAdresse->ctrlCreateNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email);
+            $resultat = $this->ctrlAdresse->ctrlCreateNewAdd($idCommande,$prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email);
             $idAdr=$resultat['id'];
 
             //On remplit table orders avec id adresse

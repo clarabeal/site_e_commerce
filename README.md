@@ -9,14 +9,13 @@ Répartition du travail : Frontend Julian, Backend Clara
 ## Difficultés rencontrées et solutions
 
 - Passage de l'architecture MVC simple à l'architecture MVC orientée objet <br />
-Etant donné qu'il était impossible de faire des tests durant le passage à une architecture orientée objet, une fois l'implémentation des classes fini, il était difficile de savoir quand est-ce que nous avions fait une erreur
+Etant donné qu'il était impossible de faire des tests durant le passage à une architecture orientée objet, une fois l'implémentation des classes fini, il était difficile de savoir quand est-ce que nous avions fait une erreur.
 
-- Que les utilisateurs non connectés puissent acheter <br />
-Nous n'avons pas eu le temps d'apprendre à gérer l'id de session, nous avons préféré consacrer ce temps à développer plus de fonctionnalités pour notre site et donc rendre les commandes possibles seulement pour les clients connectés
+- Possiblité que les utilisateurs non connectés puissent acheter <br />
+Nous n'avons pas eu le temps d'apprendre à gérer l'id de session, nous avons préféré consacrer ce temps à développer plus de fonctionnalités pour notre site et donc rendre les commandes possibles seulement pour les clients connectés.
 
-- Affichage des quantités en fonction du stock
-Difficile d'afficher les quantités tout en les mettant à jour suite aux commandes. Il n'est donc pas possible de choisir une quantité supérieure à 1 avant de mettre le produit dans le panier.
-Le client peut cependant ajouter le produit plusieurs fois dans son panier s'il veut plusieurs exemplaires de celui-ci.
+- Affichage des quantités en fonction du stock <br />
+Il était difficile d'afficher les le stock des produits tout en les mettant à jour suite aux commandes passées. Il n'est donc pas possible de choisir une quantité supérieure à 1 avant de mettre le produit dans le panier. Le client peut cependant ajouter le produit plusieurs fois dans son panier s'il veut plusieurs exemplaires de celui-ci. Une erreur lui indiquera si le produit est en rupture de stock.
 
 
 ## Architecture du site

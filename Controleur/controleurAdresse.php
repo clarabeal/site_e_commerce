@@ -18,10 +18,18 @@ class ControleurAdresse{
     }
 
     public function ctrlCreateNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email){
-        $this->adresse->createNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email);
+        return $this->adresse->createNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email);
     }
 
     public function ctrlCreateAdd($idClient){
         $this->adresse->createAdd($idClient);
+    }
+
+    public function ctrlUpdateOrder($idClient,$statut){
+        $this->adresse->updateOrder($idClient,$statut);
+    }
+
+    public function ctrlUpdateAdrOrder($idAdr,$idClient){
+        $this->adresse->updateAdrOrder($idAdr,$idClient);
     }
 }

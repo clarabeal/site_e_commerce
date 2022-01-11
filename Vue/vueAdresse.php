@@ -11,7 +11,11 @@
     <p>Numéro de téléphone : <?=$info['phone']; ?></p>
     <p>Email : <?=$info['email']; ?></p>
     <br/>
-    <input class="button" type="submit" name="validerAdresse" value="Utiliser ces informations">
+    <!--<input class="button" type="submit" name="validerAdresse" value="Utiliser ces informations">-->
+
+    <!-- Bouton temporaire qui ne fait rien -->
+    <p>Utiliser ces informations</p>
+    
 </form>
 
 

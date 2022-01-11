@@ -246,7 +246,14 @@ class Routeur {
             $numTel=$this->getParametre($_POST,'numTelClient');
             $email=$this->getParametre($_POST,'emailClient');
 
-            $this->ctrlAdresse->ctrlCreateNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email);
+            $resultat = $this->ctrlAdresse->ctrlCreateNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email);
+            $idAdr=$resultat['id'];
+
+            //On remplit table orders avec id adresse
+            $this->ctrlAdresse->ctrlUpdateAdrOrder($idAdr,$idClient);
+
+            //On passe le statut de la commande à 1
+            $this->ctrlAdresse->ctrlUpdateOrder($idClient,1);
 
             header('Location:index.php');
             //header('Location:index.php?action=paiement');
@@ -258,6 +265,9 @@ class Routeur {
             $idClient=$client['customer_id'];
 
             $this->ctrlAdresse->ctrlCreateAdd($idClient);
+
+            //On passe le statut de la commande à 1
+            $this->ctrlAdresse->ctrlUpdateOrder($idClient,1);
 
             header('Location:index.php');
             //header('Location:index.php?action=paiement');

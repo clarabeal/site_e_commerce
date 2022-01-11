@@ -11,16 +11,33 @@ class Adresse extends Modele{
         return $informations->fetch();
     }
 
-    //Remplit delivery_addresses avec valeurs du formulaire
+    //Remplit delivery_addresses avec valeurs du formulaire et renvoie l'id de celle ci
     public function createNewAdd($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email){
         $sql='INSERT INTO delivery_addresses VALUES (NULL,?,?,?,?,?,?,?,?)';
         $this->executerRequete($sql,array($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email));
+
+        //On souhaite retourner l'id de l'adresse pour remplir table orders
+        $sql='SELECT id FROM delivery_addresses WHERE phone=?';
+        $idAdr=$this->executerRequete($sql,array($numTel));
+        return $idAdr->fetch();
     }
 
-    //Remplit delivery_adresses avec valeurs de customers
+    //On remplit l'id de l'adresse avant avoir modifié le statut
+    public function updateAdrOrder($idAdr,$idClient){
+        $sql='UPDATE orders SET delivery_add_id=? WHERE customer_id=? AND status=0';
+        $this->executerRequete($sql,array($idAdr,$idClient));
+    }
+
+    //Remplit delivery_adresses avec valeurs de customers(probleme pour l'id)
     public function createAdd($idClient){
         $sql='INSERT INTO delivery_addresses(id, firstname,lastname,add1,add2,city,postcode,phone,email) SELECT id,forname,surname,add1,add2,add3,postcode,phone,email FROM customers WHERE id=?';
         $this->executerRequete($sql,array($idClient));
+    }
+
+    //Permet de mettre à jour le statut de la commande
+    public function updateOrder($idClient,$statut){
+        $sql='UPDATE orders SET status=? WHERE customer_id=?';
+        $this->executerRequete($sql,array($statut,$idClient));
     }
 
 }

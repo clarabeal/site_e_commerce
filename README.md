@@ -14,8 +14,8 @@ Etant donné qu'il était impossible de faire des tests durant le passage à une
 - Possiblité que les utilisateurs non connectés puissent acheter <br />
 Nous n'avons pas eu le temps d'apprendre à gérer l'id de session, nous avons préféré consacrer ce temps à développer plus de fonctionnalités pour notre site et donc rendre les commandes possibles seulement pour les clients connectés.
 
-- Affichage des quantités en fonction du stock <br />
-Il était difficile d'afficher les le stock des produits tout en les mettant à jour suite aux commandes passées. Il n'est donc pas possible de choisir une quantité supérieure à 1 avant de mettre le produit dans le panier. Le client peut cependant ajouter le produit plusieurs fois dans son panier s'il veut plusieurs exemplaires de celui-ci. Si le produit est en rupture de stock un message sera affiché.
+
+- Relier table orders et delivery_addresses
 
 
 ## Architecture du site
@@ -31,7 +31,7 @@ Il était difficile d'afficher les le stock des produits tout en les mettant à 
 
 - VuePanier : visualisation du panier du client et possibilité de passer la commande
 
-- VueMonCompte : Possible de modifier son mot de passe
+- VueMonCompte : possible de modifier son mot de passe
 
 - VueAdresse : permet à l'utilisateur de rentrer une nouvelle adresse ou d'utiliser celle de son compte
 

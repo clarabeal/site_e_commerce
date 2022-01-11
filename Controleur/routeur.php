@@ -68,9 +68,7 @@ class Routeur {
 
                 //On vérifie qu'il n'y a pas de problème de stock
                 if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
-                  #header('Location:index.php?action=panier');*
-                  echo('fuck yes');
-                  
+                
                 }
                 else{
                   throw new Exception("Produit en rupture de stock/en quantité insuffisante");
@@ -190,6 +188,8 @@ class Routeur {
 
             $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
             $idCommande=$commande['id'];
+
+            $this->ctrlPanier->ctrlSetTotalOrder($idCommande);
 
             $this->ctrlPanier->panierConnect($idClient,$idCommande);
             

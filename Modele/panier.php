@@ -126,4 +126,10 @@ class Panier extends Modele {
         $sql='DELETE FROM orders WHERE id=?';
         $this->executerRequete($sql,array($idCommande));
     }
+
+    //Remplit le prix total de la commande
+    public function setTotalOrder($idCommande){
+        $sql='UPDATE orders SET total = (SELECT SUM(P.price * O.quantity) FROM orderitems O JOIN products P ON O.product_id = P.id WHERE O.order_id =?) Where id = ?';
+        $this->executerRequete($sql,array($idCommande,$idCommande));
+    }
 }

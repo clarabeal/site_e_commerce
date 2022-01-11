@@ -11,6 +11,7 @@ else{
 $total=0;
 ?>
 
+<?php if(isset($produits)):?>
 <?php foreach($produits as $produit): ?>
   <img src="<?= "Contenu/Images/".$produit['image']?>">
   <p><?=$produit['name']?></p></a>
@@ -24,6 +25,7 @@ $total=0;
   ?>
 
 <?php endforeach ?>
+<?php endif ?>
 
 <p>Prix total de la commande : <?=$total?> €</p>
 

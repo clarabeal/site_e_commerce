@@ -25,8 +25,8 @@ class ControleurAdresse{
         $this->adresse->createAdd($idClient);
     }
 
-    public function ctrlUpdateOrder($idClient,$statut){
-        $this->adresse->updateOrder($idClient,$statut);
+    public function ctrlUpdateStatusOrder($idClient,$statut){
+        $this->adresse->updateStatusOrder($idClient,$statut);
     }
 
     public function ctrlUpdateAdrOrder($idAdr,$idClient){

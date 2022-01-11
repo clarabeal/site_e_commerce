@@ -253,7 +253,7 @@ class Routeur {
             $this->ctrlAdresse->ctrlUpdateAdrOrder($idAdr,$idClient);
 
             //On passe le statut de la commande à 1
-            $this->ctrlAdresse->ctrlUpdateOrder($idClient,1);
+            $this->ctrlAdresse->ctrlUpdateStatusOrder($idClient,1);
 
             header('Location:index.php');
             //header('Location:index.php?action=paiement');
@@ -266,14 +266,14 @@ class Routeur {
 
             $this->ctrlAdresse->ctrlCreateAdd($idClient);
 
+            //Manque récupérer l'id pour remplir id adresse dans orders
+
             //On passe le statut de la commande à 1
-            $this->ctrlAdresse->ctrlUpdateOrder($idClient,1);
+            $this->ctrlAdresse->ctrlUpdateStatusOrder($idClient,1);
 
             header('Location:index.php');
             //header('Location:index.php?action=paiement');
           }
-
-          //Pas oublier de changer état à la fin
         }
              
         // Action non valide //

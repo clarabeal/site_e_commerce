@@ -35,7 +35,7 @@ class Adresse extends Modele{
     }
 
     //Permet de mettre à jour le statut de la commande
-    public function updateOrder($idClient,$statut){
+    public function updateStatusOrder($idClient,$statut){
         $sql='UPDATE orders SET status=? WHERE customer_id=?';
         $this->executerRequete($sql,array($statut,$idClient));
     }

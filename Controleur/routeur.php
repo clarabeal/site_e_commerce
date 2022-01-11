@@ -184,7 +184,7 @@ class Routeur {
             $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
             $idCommande=$commande['id'];
 
-            $this->ctrlPanier->panierConnect($idCommande);
+            $this->ctrlPanier->panierConnect($idClient,$idCommande);
           }
           else{
             $this->ctrlPanier->panier();

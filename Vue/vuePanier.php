@@ -11,6 +11,7 @@ else{
 $total=0;
 ?>
 
+<!-- Pas de $produit si pas connecté -->
 <?php if(isset($produits)):?>
 <?php foreach($produits as $produit): ?>
   <img src="<?= "Contenu/Images/".$produit['image']?>">
@@ -27,6 +28,7 @@ $total=0;
 <?php endforeach ?>
 <?php endif ?>
 
-<p>Prix total de la commande : <?=$total?> €</p>
-
-<a href="index.php?action=saisirAdresse" class="buttn">Passer la commande</a>
+<?php if($commande): ?>
+  <p>Prix total de la commande : <?=$total?> €</p>
+  <a href="index.php?action=saisirAdresse" class="buttn">Passer la commande</a>
+<?php endif ?>

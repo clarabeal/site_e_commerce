@@ -1,5 +1,8 @@
-# Organisation
+### Web 4 shop
+
 Projet réalisé par Julian DEGUT et Clara BEAL
+
+# Organisation
 
 Répartition du travail : Frontend Julian, Backend Clara
 
@@ -9,7 +12,7 @@ Répartition du travail : Frontend Julian, Backend Clara
 
 # Architecture du site
 - VueAccueil
-Affichage de tous les produits avec nom et prix
+  Affichage de tous les produits avec nom et prix
 
 - VueCaracteristiques
 Affichage d'un produit avec toutes ses caractéristiques : nom, catégorie(enlever?), description, prix

@@ -26,29 +26,29 @@ class Panier extends Modele {
     }
 
     //Renvoie vrai si le produit a été ajouté à la commande, faux sinon
-    public function addProduct($idCommande,$idProduit){
+    public function addProduct($idCommande,$idProduit,$qteProduit){
 
         //On vérifie qu'il n'y a pas de rupture de stock
         if(!$this->checkSoldOut($idProduit)){
-            //On peut ajouter le produit
+            //On peut ajouter le(s) produit
 
             $resultat=$this->productQuantityOrder($idCommande,$idProduit);
-            $quantite=$resultat['quantity'];
+            $quantite=$resultat['quantity'];            
 
             if($quantite!=0){ //Si il y a déjà le produit dans le panier
 
-                $quantite++;
+                $quantite = $quantite + $qteProduit;
 
                 $sql='UPDATE orderitems SET quantity=? WHERE order_id=? AND product_id=?';
                 $this->executerRequete($sql,array($quantite,$idCommande,$idProduit));
             }
-            else{ //On ajoute le produit avec une quantité 1
-                $sql='INSERT INTO orderitems VALUES (NULL,?,?,1)';
-                $this->executerRequete($sql,array($idCommande,$idProduit));
+            else{ //On ajoute le produit avec la quantité demandée
+                $sql='INSERT INTO orderitems VALUES (NULL,?,?,?)';
+                $this->executerRequete($sql,array($idCommande,$idProduit,$qteProduit));
             }
 
             //On modifie le stock
-            $this->updateQuantity($idProduit,1);
+            $this->updateQuantity($idProduit,$qteProduit);
             
             return true;
         }
@@ -102,5 +102,21 @@ class Panier extends Modele {
         $resultat=$this->checkQuantity($idProduit);
         $quantite=$resultat['quantity'];
         return($quantite==0);
+    }
+  
+    //Fonction qui vide le panier
+    public function viderPanier($idCommande) {
+        $sql='SELECT * FROM orderitems WHERE order_id=?';
+        $prods=$this->executerRequete($sql,array($idCommande))->fetch();
+        foreach($prods as $produit) {
+            $oldQty=$this->checkQuantity($produit['product_id']);
+            $newQty=$oldQty + $produit['quantity'];
+            $this->updateQuantity($produit['product_id'], $newQty);
+            $sql='DELETE FROM orderitems WHERE order_id=? AND product_id=?';
+            $this->executerRequete($sql,array($idCommande,$produit['product_id']));
+        }
+        
+        $sql='DELETE FROM orders WHERE id=?';
+        $this->executerRequete($sql,array($idCommande));
     }
 }

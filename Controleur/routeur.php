@@ -56,14 +56,19 @@ class Routeur {
               $pseudoClient=$this->getParametre($_SESSION,'pseudo');
               $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
               $idClient=$client['customer_id'];
+              $qteProduit=intval($this->getParametre($_POST,'qte'));
+              
+              if($qteProduit==NULL) {
+                $qteProduit=1;
+              }
 
               if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)){ //On regarde si l'utilisateur a une commande en cours
                 $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
                 $idCommande=$commande['id'];
 
                 //On vérifie qu'il n'y a pas de problème de stock
-                if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit)){
-                  header('Location:index.php?action=panier');
+                if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
+                  #header('Location:index.php?action=panier');
                 }
                 else{
                   throw new Exception("Produit en rupture de stock");
@@ -76,7 +81,7 @@ class Routeur {
                 $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
                 $idCommande=$commande['id'];
 
-                if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit)){
+                if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
                   header('Location:index.php?action=panier');
                 }
                 else{
@@ -185,6 +190,10 @@ class Routeur {
             $idCommande=$commande['id'];
 
             $this->ctrlPanier->panierConnect($idCommande);
+            
+            if(isset($_POST['viderPanier'])) {
+              $this->ctrlPanier->ctrlViderPanier($idCommande);
+            }
           }
           else{
             $this->ctrlPanier->panier();

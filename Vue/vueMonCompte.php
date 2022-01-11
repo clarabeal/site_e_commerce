@@ -2,7 +2,7 @@
 
 <div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">
   <div class="row align-items-center">
-    <div class="col text-center ms-2">
+    <div class="col text-center">
       <h2>Mes informations du compte</h2>
       <p>Iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
       iiiiiiiiiiiiiiiiiiiiiiiiiiiii

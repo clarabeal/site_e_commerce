@@ -15,7 +15,8 @@ Etant donné qu'il était impossible de faire des tests durant le passage à une
 Nous n'avons pas eu le temps d'apprendre à gérer l'id de session, nous avons préféré consacrer ce temps à développer plus de fonctionnalités pour notre site et donc rendre les commandes possibles seulement pour les clients connectés.
 
 
-- Relier table orders et delivery_addresses
+- Problème pour remplir delivery_add_id dans orders car il n'y avait pas de lien entre les tables orders et delivery_addresses <br />
+Afin de relier ces tables nous avons inséré une colonne order_id dans delivery_addresses ce qui nous a ensuite permis de pouvoir faire le lien entre ces deux tables
 
 
 ## Architecture du site

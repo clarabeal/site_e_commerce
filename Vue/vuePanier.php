@@ -33,6 +33,7 @@ if($_SESSION['logged']): ?>
     <div class="col text-center"><form action="index.php?action=panier" method="POST"><input type="submit"  name="viderPanier" class="btn btn-danger" value="Vider le panier.."></form></div>
     <div class="col text-center">Total à payer (TTC) : <?=$totalPrice?> €</div>
   </div>
+  <?php endif;?>
   <?php else: ?>
   <div class="row align-items-center py-5">
     <div class="col text-center">
@@ -40,8 +41,7 @@ if($_SESSION['logged']): ?>
       <a href="index.php" class="text-decoration-none">Commencer à faire mes achats !</a>
     </div>
   </div>
-  <?php endif;
-        endif;?>
+  <?php endif;?>
 </div>
 <div style="height: 100px"></div>
 <div class="row bg-light fixed-bottom py-3">

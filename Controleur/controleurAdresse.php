@@ -21,15 +21,15 @@ class ControleurAdresse{
         return $this->adresse->createNewAdd($idCommande,$prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email);
     }
 
-    public function ctrlCreateAdd($idClient){
-        $this->adresse->createAdd($idClient);
+    public function ctrlCreateAdd($idClient,$idCommande){
+        $this->adresse->createAdd($idClient,$idCommande);
     }
 
     public function ctrlUpdateStatusOrder($idCommande,$statut){
         $this->adresse->updateStatusOrder($idCommande,$statut);
     }
 
-    public function ctrlUpdateAdrOrder($idAdr,$idClient){
-        $this->adresse->updateAdrOrder($idAdr,$idClient);
+    public function ctrlUpdateAdrId($idCommande){
+        $this->adresse->updateAdrId($idCommande);
     }
 }

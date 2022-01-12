@@ -66,12 +66,11 @@ class Routeur {
               }
 
               if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)){ //On regarde si l'utilisateur a une commande en cours
-                $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
-                $idCommande=$commande['id'];
+                $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
 
                 //On vérifie qu'il n'y a pas de problème de stock
                 if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
-                header('Location:index.php?action=panier');
+                echo('<script> location.replace("index.php?action=panier"); </script>');
                 }
                 else{
                   throw new Exception("Produit en rupture de stock/en quantité insuffisante");
@@ -81,11 +80,10 @@ class Routeur {
                 //Si l'utilisateur n'a pas de commande en cours il faut en créer une
                 $this->ctrlCaracteristiques->ctrlCreateOrder($idClient,$_SESSION['id']);
 
-                $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
-                $idCommande=$commande['id'];
+                $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
 
                 if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
-                  header('Location:index.php?action=panier');
+                  echo('<script> location.replace("index.php?action=panier"); </script>');
                 }
                 else{
                   throw new Exception("Produit en rupture de stock/en quantité insuffisante");
@@ -188,21 +186,21 @@ class Routeur {
 
             $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
             $idClient=$client['customer_id'];
+              if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)) {
+              $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
 
-            $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
-            $idCommande=$commande['id'];
+              $this->ctrlPanier->ctrlSetTotalOrder($idCommande);
 
-            $this->ctrlPanier->ctrlSetTotalOrder($idCommande);
+              $this->ctrlPanier->panierConnect($idClient,$idCommande);
 
-            $this->ctrlPanier->panierConnect($idClient,$idCommande);
-            
-            if(isset($_POST['viderPanier'])) {
-              $this->ctrlPanier->ctrlViderPanier($idCommande);
-              header('Location:index.php?action=panier');
+              if(isset($_POST['viderPanier'])) {
+                $this->ctrlPanier->ctrlViderPanier($idCommande);
+                echo('<script> location.replace("index.php?action=panier"); </script>');
+              }
             }
-          }
-          else{
-            $this->ctrlPanier->panier();
+            else{
+              $this->ctrlPanier->panier();
+            }
           }
         }
         
@@ -239,7 +237,7 @@ class Routeur {
               }
             }
           } else {
-            header('Location:index.php');
+            echo('<script> location.replace("index.php"); </script>');
           }
         }
 
@@ -252,8 +250,8 @@ class Routeur {
           $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
           $idClient=$client['customer_id'];
           
-          $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
-          $idCommande=$commande['id'];
+          $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
+
 
           $this->ctrlAdresse->adresse($idClient);
 
@@ -277,24 +275,22 @@ class Routeur {
             //On passe le statut de la commande à 1
             $this->ctrlAdresse->ctrlUpdateStatusOrder($idCommande,1);
 
-            header('Location:index.php');
-            //header('Location:index.php?action=paiement');
+            echo('<script> location.replace("index.php?action=paiement"); </script>');
           }
-          else if(isset($_POST['validerAdresse'])){ //Marche pas
+          else if(isset($_POST['validerAdresse'])){
 
             $pseudoClient=$this->getParametre($_SESSION,'pseudo');
             $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
             $idClient=$client['customer_id'];
 
-            $this->ctrlAdresse->ctrlCreateAdd($idClient);
+            $this->ctrlAdresse->ctrlCreateAdd($idClient,$idCommande);
 
-            //Manque récupérer l'id pour remplir id adresse dans orders
+            $this->ctrlAdresse->ctrlUpdateAdrId($idCommande);
 
             //On passe le statut de la commande à 1
             $this->ctrlAdresse->ctrlUpdateStatusOrder($idCommande,1);
 
-            header('Location:index.php');
-            //header('Location:index.php?action=paiement');
+            echo('<script> location.replace("index.php?action=paiement"); </script>');
           }
         }
         
@@ -307,17 +303,16 @@ class Routeur {
           $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
           $idClient=$client['customer_id'];
           
-          $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,1);
-          $idCommande=$commande['id'];
+          $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,1);
           
           $this->ctrlPaiement->paiement();
           
           if(isset($_POST['paypalPaiement'])) {
             $this->ctrlPaiement->ctrlPaid("paypal",$idCommande);
-            header("Location: https://www.paypal.com/");
+            echo('<script> location.replace("https://www.paypal.com/"); </script>');
           } elseif(isset($_POST['chequePaiement'])) {
             $this->ctrlPaiement->ctrlPaid("cheque",$idCommande);
-            header('Location:index.php');
+            echo('<script> location.replace("index.php"); </script>');
           }
           
         }

@@ -15,9 +15,9 @@ class Panier extends Modele {
     public function getIdOrder($idClient,$status){
         $sql='SELECT id FROM orders WHERE customer_id=? AND status=?';
         $idCommande=$this->executerRequete($sql,array($idClient,$status));
-        return $idCommande->fetch();
+        return $idCommande->fetch()['id'];
     }
-
+  
     //Insère une nouvelle commande dans la table orders
     public function createOrder($idClient,$session){
         $sql='INSERT INTO orders VALUES (NULL,?,1,NULL,NULL,?,0,?,0)';
@@ -33,11 +33,7 @@ class Panier extends Modele {
           if($this->checkQuantity($idProduit)['quantity'] >= $qteProduit) {
             //On peut ajouter le(s) produit(s)
 
-            $resultat=$this->productQuantityOrder($idCommande,$idProduit);
-            if($resultat == false) { $quantite=0;}
-            else {
-              $quantite=$resultat['quantity'];
-            }
+            $quantite=$this->productQuantityOrder($idCommande,$idProduit);
   
             if($quantite!=0){ //Si il y a déjà le produit dans le panier
 
@@ -70,7 +66,8 @@ class Panier extends Modele {
     public function productQuantityOrder($idCommande,$idProduit){
         $sql='SELECT quantity FROM orderitems WHERE order_id=? AND product_id =?';
         $quantite = $this->executerRequete($sql,array($idCommande,$idProduit));
-        return $quantite->fetch();
+        if($quantite->RowCount()!=0) { return $quantite->fetch()['quantity']; }
+        else { return 0; }
     }
 
     //Renvoie customer_id du customer

@@ -246,12 +246,10 @@ class Routeur {
         else if($_GET['action']=='saisirAdresse'){
 
           $pseudoClient=$this->getParametre($_SESSION,'pseudo');
-
           $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
           $idClient=$client['customer_id'];
           
           $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
-
 
           $this->ctrlAdresse->adresse($idClient);
 
@@ -270,7 +268,7 @@ class Routeur {
             $idAdr=$resultat['id'];
 
             //On remplit table orders avec id adresse
-            $this->ctrlAdresse->ctrlUpdateAdrOrder($idAdr,$idClient);
+            $this->ctrlAdresse->ctrlUpdateAdrId($idAdr,$idCommande);
 
             //On passe le statut de la commande à 1
             $this->ctrlAdresse->ctrlUpdateStatusOrder($idCommande,1);
@@ -279,13 +277,11 @@ class Routeur {
           }
           else if(isset($_POST['validerAdresse'])){
 
-            $pseudoClient=$this->getParametre($_SESSION,'pseudo');
-            $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
-            $idClient=$client['customer_id'];
+            $resultat = $this->ctrlAdresse->ctrlCreateAdd($idClient,$idCommande);
+            $idAdr=$resultat['id'];
 
-            $this->ctrlAdresse->ctrlCreateAdd($idClient,$idCommande);
-
-            $this->ctrlAdresse->ctrlUpdateAdrId($idCommande);
+            //On remplit table orders avec id adresse
+            $this->ctrlAdresse->ctrlUpdateAdrId($idAdr,$idCommande);
 
             //On passe le statut de la commande à 1
             $this->ctrlAdresse->ctrlUpdateStatusOrder($idCommande,1);

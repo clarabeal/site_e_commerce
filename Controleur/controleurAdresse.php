@@ -22,14 +22,14 @@ class ControleurAdresse{
     }
 
     public function ctrlCreateAdd($idClient,$idCommande){
-        $this->adresse->createAdd($idClient,$idCommande);
+        return $this->adresse->createAdd($idClient,$idCommande);
     }
 
     public function ctrlUpdateStatusOrder($idCommande,$statut){
         $this->adresse->updateStatusOrder($idCommande,$statut);
     }
 
-    public function ctrlUpdateAdrId($idCommande){
-        $this->adresse->updateAdrId($idCommande);
+    public function ctrlUpdateAdrId($idAdr,$idCommande){
+        $this->adresse->updateAdrId($idAdr,$idCommande);
     }
 }

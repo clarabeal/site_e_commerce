@@ -4,15 +4,17 @@ require_once 'Modele/monCompte.php';
 require_once 'Vue/Vue.php';
 
 class ControleurMonCompte{
+    private $monCompte;
 
     public function __construct(){
         $this->monCompte = new MonCompte();
     }
 
     //Affiche la liste de tous les produits du site
-    public function monCompte(){
+    public function monCompte($idClient){
+        $info = $this->monCompte->getCompteInfo($idClient);
         $vue = new Vue("MonCompte");
-        $vue->generer(array(NULL));
+        $vue->generer(array('info'=>$info));
     }
   
     public function ctrlChangePass($pseudo,$hashMdp){

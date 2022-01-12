@@ -9,7 +9,11 @@
     <?php 
       if(!isset($_SESSION['logged'])){
       $_SESSION['logged']=false;
-      }?>
+      }
+      if(!isset($_SESSION['id'])){
+      $_SESSION['id']=session_id();
+      }
+    ?>
   </head>
   <body style="background: rgb(45,45,45);">
     <div class="container-fluid">

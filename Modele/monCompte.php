@@ -17,4 +17,10 @@ class MonCompte extends Modele {
         return ($resultat->RowCount()==1);
     }
   
+    public function getCompteInfo($idClient) {
+        $sql='SELECT C.* FROM customers C JOIN logins L ON C.id=L.customer_id WHERE L.customer_id=?';
+        $informations = $this->executerRequete($sql,array($idClient));
+        return $informations->fetch();
+    }
+  
 }

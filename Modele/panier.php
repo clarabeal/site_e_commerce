@@ -12,17 +12,17 @@ class Panier extends Modele {
     }
 
     //Renvoie l'identifiant de la commande 
-    public function getIdOrder($idClient){
-        $sql='SELECT id FROM orders WHERE customer_id=? AND status=0';
-        $idCommande=$this->executerRequete($sql,array($idClient));
+    public function getIdOrder($idClient,$status){
+        $sql='SELECT id FROM orders WHERE customer_id=? AND status=?';
+        $idCommande=$this->executerRequete($sql,array($idClient,$status));
         return $idCommande->fetch();
     }
 
     //Insère une nouvelle commande dans la table orders
-    public function createOrder($idClient){
-        $sql='INSERT INTO orders VALUES (NULL,?,1,NULL,NULL,?,0,0,NULL)';
+    public function createOrder($idClient,$session){
+        $sql='INSERT INTO orders VALUES (NULL,?,1,NULL,NULL,?,0,?,0)';
         $date=date("Y")."-".date("m")."-".date("j");
-        $this->executerRequete($sql,array($idClient,$date));
+        $this->executerRequete($sql,array($idClient,$date,$session));
     }
 
     //Renvoie vrai si le produit a été ajouté à la commande, faux sinon
@@ -31,7 +31,7 @@ class Panier extends Modele {
         //On vérifie qu'il n'y a pas de rupture de stock
         if(!$this->checkSoldOut($idProduit)){
           if($this->checkQuantity($idProduit)['quantity'] >= $qteProduit) {
-            //On peut ajouter le(s) produit
+            //On peut ajouter le(s) produit(s)
 
             $resultat=$this->productQuantityOrder($idCommande,$idProduit);
             if($resultat == false) { $quantite=0;}
@@ -50,6 +50,9 @@ class Panier extends Modele {
                 $sql='INSERT INTO orderitems VALUES (NULL,?,?,?)';
                 $this->executerRequete($sql,array($idCommande,$idProduit,$qteProduit));
             }
+            
+            //On modifie le prix total de la commande
+            $this->updateTotalPrice($idCommande,$idProduit,$qteProduit);
 
             //On modifie le stock
             $this->updateQuantity($idProduit,-1 * $qteProduit);
@@ -125,5 +128,28 @@ class Panier extends Modele {
         
         $sql='DELETE FROM orders WHERE id=?';
         $this->executerRequete($sql,array($idCommande));
+    }
+  
+    //Fonction retournant le prix du produit
+    public function getProductPrice($idProduct){
+        $sql='SELECT price FROM products WHERE id=?';
+        $price=$this->executerRequete($sql,array($idProduct));
+        return floatval($price->fetchAll());
+    }
+  
+    //Fonction mettant à jour le prix total a chaque ajout de produit au panier
+    public function updateTotalPrice($idCommande,$idProduct,$qty){
+      
+        $totalPrice = $this->getTotalPrice($idCommande) + $this->getProductPrice($idProduct) * $qty;
+
+        $sql='UPDATE orders SET total=? WHERE id=?';
+        $this->executerRequete($sql,array($totalPrice,$idCommande));
+    }
+    
+    //Fonction donnant le prix total d'une commande
+    public function getTotalPrice($idCommande) {
+        $sql='SELECT total FROM orders WHERE id=?';
+        $total=$this->executerRequete($sql,array($idCommande));
+        return floatval($total->fetchAll());
     }
 }

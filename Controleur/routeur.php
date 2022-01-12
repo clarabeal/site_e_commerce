@@ -8,6 +8,7 @@ require_once 'Controleur/controleurConnexion.php';
 require_once 'Controleur/controleurPanier.php';
 require_once 'Controleur/controleurMonCompte.php';
 require_once 'Controleur/controleurAdresse.php';
+require_once 'Controleur/controleurPaiement.php';
 require_once 'Vue/vue.php';
 
 class Routeur {
@@ -19,6 +20,7 @@ class Routeur {
   private $ctrlPanier;
   private $ctrlMonCompte;
   private $ctrlAdresse;
+  private $ctrlPaiement;
 
   public function __construct(){
     $this->ctrlAccueil = new ControleurAccueil();
@@ -29,6 +31,7 @@ class Routeur {
     $this->ctrlPanier = new ControleurPanier();
     $this->ctrlMonCompte = new ControleurMonCompte();
     $this->ctrlAdresse = new ControleurAdresse();
+    $this->ctrlPaiement = new ControleurPaiement();
   }
     
   //Traite une requête entrante
@@ -63,13 +66,12 @@ class Routeur {
               }
 
               if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)){ //On regarde si l'utilisateur a une commande en cours
-                $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+                $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
                 $idCommande=$commande['id'];
 
                 //On vérifie qu'il n'y a pas de problème de stock
                 if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
                   #header('Location:index.php?action=panier');*
-                  echo('fuck yes');
                   
                 }
                 else{
@@ -78,9 +80,9 @@ class Routeur {
               }
               else{
                 //Si l'utilisateur n'a pas de commande en cours il faut en créer une
-                $this->ctrlCaracteristiques->ctrlCreateOrder($idClient);
+                $this->ctrlCaracteristiques->ctrlCreateOrder($idClient,$_SESSION['id']);
 
-                $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+                $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
                 $idCommande=$commande['id'];
 
                 if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
@@ -188,7 +190,7 @@ class Routeur {
             $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
             $idClient=$client['customer_id'];
 
-            $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+            $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
             $idCommande=$commande['id'];
 
             $this->ctrlPanier->panierConnect($idClient,$idCommande);
@@ -206,7 +208,11 @@ class Routeur {
         // Mon compte //
         
         else if($_GET['action']=='moncompte') {
-          $this->ctrlMonCompte->monCompte();
+          $pseudoClient=$this->getParametre($_SESSION,'pseudo');
+
+          $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
+          $idClient=$client['customer_id'];
+          $this->ctrlMonCompte->monCompte($idClient);
           
           if($_SESSION['logged']) {
           
@@ -245,7 +251,7 @@ class Routeur {
           $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
           $idClient=$client['customer_id'];
           
-          $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient);
+          $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
           $idCommande=$commande['id'];
 
           $this->ctrlAdresse->adresse($idClient);
@@ -268,7 +274,7 @@ class Routeur {
             $this->ctrlAdresse->ctrlUpdateAdrOrder($idAdr,$idClient);
 
             //On passe le statut de la commande à 1
-            $this->ctrlAdresse->ctrlUpdateStatusOrder($idClient,1);
+            $this->ctrlAdresse->ctrlUpdateStatusOrder($idCommande,1);
 
             header('Location:index.php');
             //header('Location:index.php?action=paiement');
@@ -284,11 +290,35 @@ class Routeur {
             //Manque récupérer l'id pour remplir id adresse dans orders
 
             //On passe le statut de la commande à 1
-            $this->ctrlAdresse->ctrlUpdateStatusOrder($idClient,1);
+            $this->ctrlAdresse->ctrlUpdateStatusOrder($idCommande,1);
 
             header('Location:index.php');
             //header('Location:index.php?action=paiement');
           }
+        }
+        
+        // Paiement
+        
+        else if($_GET['action']=='paiement') {
+          
+          $pseudoClient=$this->getParametre($_SESSION,'pseudo');
+
+          $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
+          $idClient=$client['customer_id'];
+          
+          $commande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,1);
+          $idCommande=$commande['id'];
+          
+          $this->ctrlPaiement->paiement();
+          
+          if(isset($_POST['paypalPaiement'])) {
+            $this->ctrlPaiement->ctrlPaid("paypal",$idCommande);
+            header("Location: https://www.paypal.com/");
+          } elseif(isset($_POST['chequePaiement'])) {
+            $this->ctrlPaiement->ctrlPaid("cheque",$idCommande);
+            header('Location:index.php');
+          }
+          
         }
              
         // Action non valide //

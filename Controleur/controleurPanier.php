@@ -15,8 +15,9 @@ class ControleurPanier {
     public function panierConnect($idClient,$idCommande){
         $produits=$this->panier->getProductsOrder($idCommande);
         $commande=$this->panier->checkOrder($idClient);
+        $totalPrice=$this->panier->getTotalPrice($idCommande);
         $vue=new Vue('Panier');
-        $vue->generer(array('produits'=>$produits,'commande'=>$commande));
+        $vue->generer(array('produits'=>$produits,'commande'=>$commande,'totalPrice'=>$totalPrice));
     }
 
     // Affiche le panier du client pas connecté

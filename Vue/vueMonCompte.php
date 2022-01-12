@@ -3,13 +3,17 @@
 <div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">
   <div class="row align-items-center">
     <div class="col text-center">
-      <h2>Mes informations du compte</h2>
-      <p>Iciiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-      iiiiiiiiiiiiiiiiiiiiiiiiiiiii
-      iiiiiiiiiiiiiiiiiiiiiiiiii
-      iiiiiiiiiiiii</p>
+      <h2>Mes informations</h2>
+      <p>Prénom : <?=$info['forname']; ?></p>
+        <p>Nom : <?=$info['surname']; ?></p>
+        <p>Adresse 1 : <?=$info['add1']; ?></p>
+        <p>Adresse 2 : <?=$info['add2']; ?></p>
+        <p>Ville : <?=$info['add3']; ?></p>
+        <p>Code postal : <?=$info['postcode']; ?></p>
+        <p>Numéro de téléphone : <?=$info['phone']; ?></p>
+        <p>Email : <?=$info['email']; ?></p>
     </div>
-    <div class="col vert-sep">
+    <div class="col vert-sep me-2">
       <form action="index.php?action=moncompte" method="POST">
         <h1 class="text-center my-3">Changer mon mot de passe</h1>
         <div class="mb-3">

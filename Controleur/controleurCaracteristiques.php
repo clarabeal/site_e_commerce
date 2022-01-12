@@ -28,12 +28,12 @@ class ControleurCaracteristiques {
         return $this->panier->checkOrder($idClient);
     }
 
-    public function ctrlGetIdOrder($idClient){
-        return $this->panier->getIdOrder($idClient);
+    public function ctrlGetIdOrder($idClient,$status){
+        return $this->panier->getIdOrder($idClient,$status);
     }
 
-    public function ctrlCreateOrder($idClient){
-        $this->panier->createOrder($idClient);
+    public function ctrlCreateOrder($idClient,$session){
+        $this->panier->createOrder($idClient,$session);
     }
 
     public function ctrlAddProduct($idCommande,$idProduit,$qteProduit){

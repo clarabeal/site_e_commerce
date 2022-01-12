@@ -30,7 +30,7 @@ class Adresse extends Modele{
 
     //Remplit delivery_adresses avec valeurs de customers(probleme pour l'id)
     public function createAdd($idClient,$idCommande){
-        $sql='INSERT INTO delivery_addresses(id, order_id, firstname,lastname,add1,add2,city,postcode,phone,email) SELECT id,?,forname,surname,add1,add2,add3,postcode,phone,email FROM customers WHERE id=?';
+        $sql='INSERT INTO delivery_addresses(id, order_id, firstname,lastname,add1,add2,city,postcode,phone,email) SELECT NULL,?,forname,surname,add1,add2,add3,postcode,phone,email FROM customers WHERE id=?';
         $this->executerRequete($sql,array($idCommande,$idClient));
 
         //On souhaite retourner l'id de l'adresse pour remplir table orders

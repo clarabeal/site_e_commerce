@@ -50,9 +50,6 @@ class Panier extends Modele {
                 $sql='INSERT INTO orderitems VALUES (NULL,?,?,?)';
                 $this->executerRequete($sql,array($idCommande,$idProduit,$qteProduit));
             }
-            
-            //On modifie le prix total de la commande
-            $this->updateTotalPrice($idCommande,$idProduit,$qteProduit);
 
             //On modifie le stock
             $this->updateQuantity($idProduit,-1 * $qteProduit);
@@ -129,27 +126,17 @@ class Panier extends Modele {
         $sql='DELETE FROM orders WHERE id=?';
         $this->executerRequete($sql,array($idCommande));
     }
-  
-    //Fonction retournant le prix du produit
-    public function getProductPrice($idProduct){
-        $sql='SELECT price FROM products WHERE id=?';
-        $price=$this->executerRequete($sql,array($idProduct));
-        return floatval($price->fetchAll());
-    }
-  
-    //Fonction mettant à jour le prix total a chaque ajout de produit au panier
-    public function updateTotalPrice($idCommande,$idProduct,$qty){
-      
-        $totalPrice = $this->getTotalPrice($idCommande) + $this->getProductPrice($idProduct) * $qty;
-
-        $sql='UPDATE orders SET total=? WHERE id=?';
-        $this->executerRequete($sql,array($totalPrice,$idCommande));
-    }
     
     //Fonction donnant le prix total d'une commande
     public function getTotalPrice($idCommande) {
         $sql='SELECT total FROM orders WHERE id=?';
         $total=$this->executerRequete($sql,array($idCommande));
-        return floatval($total->fetchAll());
+        return $total->fetch()['total'];
+    }
+
+    //Remplit le prix total de la commande
+    public function setTotalOrder($idCommande){
+        $sql='UPDATE orders SET total = (SELECT SUM(P.price * O.quantity) FROM orderitems O JOIN products P ON O.product_id = P.id WHERE O.order_id =?) Where id = ?';
+        $this->executerRequete($sql,array($idCommande,$idCommande));
     }
 }

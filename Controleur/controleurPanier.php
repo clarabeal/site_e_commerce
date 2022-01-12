@@ -26,7 +26,11 @@ class ControleurPanier {
         $vue->generer(array(NULL));
     }
   
-    public function ctrlViderPanier($idCommande) {
+    public function ctrlViderPanier($idCommande){
       return $this->panier->viderPanier($idCommande);
+    }
+
+    public function ctrlSetTotalOrder($idCommande){
+        $this->panier->setTotalOrder($idCommande);
     }
 }

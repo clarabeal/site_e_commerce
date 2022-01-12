@@ -26,6 +26,35 @@
     </div>
   </div>
 </div>
+<div class="col-8 bg-light mx-auto mt-5" style="border-radius: 12px;">
+  <div class="row align-items-center text-center p-3">
+    <h3>Leurs avis sur ce produit</h3>
+  </div>
+  <hr/>
+  <?php foreach($reviews as $rev):?>
+  <div class="row align-items-center text-center">
+    <div class="col">
+      <img src="Contenu/Images/<?=$rev['photo_user']?>" style="height:150px;width:150px;">
+    </div>
+    <div class="col">
+      <p><?=$rev['name_user']?></p>
+    </div>
+    <div class="col">
+      <?php for($i=0;$i<$rev['stars'];$i++):?>
+      <img src="Contenu/Images/review_star.png" style="height:20px;width:20px;">
+      <?php endfor;
+      for($i=0;$i<5-$rev['stars'];$i++):?>
+      <img src="Contenu/Images/review_gray.png" style="height:20px;width:20px;">
+      <?php endfor;?>
+    </div>
+    <div class="col">
+      <h5><?=$rev['title']?></h5>
+      <p><?=$rev['description']?></p>
+    </div>
+  </div>
+  <hr/>
+  <?php endforeach;?>
+</div>
 
 <div style="height: 100px"></div>
 <div class="row bg-light fixed-bottom py-3">

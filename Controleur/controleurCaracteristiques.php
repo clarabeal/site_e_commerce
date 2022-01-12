@@ -9,6 +9,7 @@ class ControleurCaracteristiques {
     private $caracteristiques;
     private $categorie;
     private $panier;
+    private $reviews;
 
     public function __construct(){
         $this->caracteristiques = new Produit();
@@ -20,8 +21,9 @@ class ControleurCaracteristiques {
     public function caracteristiques($idProduit){
         $caracteristiques = $this->caracteristiques->getCaracteristiques($idProduit);
         $categorie = $this->categorie->getCategorie($idProduit);
+        $reviews = $this->caracteristiques->getReviews($idProduit);
         $vue = new Vue("Caracteristiques");
-        $vue->generer(array('caracteristiques' => $caracteristiques, 'categorie' => $categorie));
+        $vue->generer(array('caracteristiques' => $caracteristiques, 'categorie' => $categorie, 'reviews' => $reviews));
     }
 
     public function ctrlCheckOrder($idClient){

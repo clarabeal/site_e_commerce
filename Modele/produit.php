@@ -34,4 +34,11 @@ class Produit extends Modele{
             throw new Exception("Aucune catégorie ne correspond à l'identifiant'$idCat'");
         }
     }
+  
+    //Retourne la liste des reviews pour un produit
+    public function getReviews($idProduit){
+        $sql='SELECT * FROM reviews WHERE id_product=?';
+        $reviews = $this->executerRequete($sql,array($idProduit));
+        return $reviews->fetchAll();
+    }
 }

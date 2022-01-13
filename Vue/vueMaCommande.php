@@ -46,7 +46,7 @@
       </div>
       <div class="row align-items-center pt-2">
         <h5 class="fst-italic">Votre Facture</h5>
-        <a href="Contenu/factures.php?id=<?=$info['id']?>">Cliquez ici pour télécharger votre facture</a>
+        <a href="Contenu/factures.php?id=<?=$info['id']?>" class="text-decoration-none">Cliquez ici pour télécharger votre facture</a>
       </div>
       <hr/>
       <div class="row align-items-center py-2">

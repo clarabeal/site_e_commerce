@@ -23,4 +23,10 @@ class MonCompte extends Modele {
         return $informations->fetch();
     }
   
+    public function getMesCommandes($idClient) {
+        $sql='SELECT * FROM orders WHERE customer_id=? AND (status=2 OR status=3 OR status=10)';
+        $commandes = $this->executerRequete($sql,array($idClient));
+        return $commandes->fetchAll();
+    }
+  
 }

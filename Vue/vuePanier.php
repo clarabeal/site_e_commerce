@@ -17,13 +17,13 @@ if($_SESSION['logged']): ?>
       <p><?=$produit['name']?></p>
     </div>
     <div class="col text-center">
-      <p>Prix unité : <?=$produit['price']; ?> €</p>
+      <p>Prix unité : <?=$produit['price'] ?> €</p>
     </div>
     <div class="col text-center">
-      <p>Quantité : <?=$produit['quantity']; ?></p>
+      <p>Quantité : <?=$produit['quantity'] ?></p>
     </div>
     <div class="col text-center">
-      <p>Sous-total : <?=$produit['price'] * $produit['quantity']; ?> €</p>
+      <p>Sous-total : <?=$produit['price'] * $produit['quantity'] ?> €</p>
     </div>
   </div>
   <?php if(count($produits) >= 1) {echo('<hr/>');} ?>

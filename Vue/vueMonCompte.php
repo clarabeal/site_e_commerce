@@ -36,8 +36,54 @@
   </div>
 </div>
 
-<div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">
+<div class="col-11 bg-light mx-auto mt-5" style="border-radius: 12px;">
   <div class="row align-items-center">
-    
+    <div class="col text-center pt-2">
+      <h2>Mes commandes</h2>
+      <hr/>
+      <?php if(isset($commandes)):
+        if(count($commandes) > 0):
+        foreach($commandes as $commande): 
+      
+        if($commande['status'] == 3) { $status = "en attente de paiement (chèque)"; }
+        elseif($commande['status'] == 2) { $status = "confirmée"; }
+        elseif($commande['status'] == 10) { $status = "expédiée"; }
+      ?>
+      <div class="row align-items-center pt-2">
+        <div class="col text-center">
+          <p>Commande numéro : <?=$commande['id']?></p>
+        </div>
+        <div class="col text-center">
+          <p>Status de la commande : <?=$status?></p>
+        </div>
+        <div class="col text-center">
+          <p>Date de la commande : <?=$commande['date'] ?></p>
+        </div>
+        <div class="col text-center">
+          <p>Prix total : <?=$commande['total'] ?> €</p>
+        </div>
+        <div class="col text-center">
+          <a href="Contenu/factures.php?id=<?=$commande['id'] ?>" class="text-decoration-none">Facture</a>
+        </div>
+      </div>
+      <?php if(array_search($commande, $commandes) <  count($commandes) - 1) {echo('<hr/>');}else{echo('<br/>');} ?>
+      <?php endforeach; ?>
+      <?php endif;?>
+      <?php else: ?>
+      <div class="row align-items-center py-5">
+        <div class="col text-center">
+          <h3>Pas encore de commandes...</h3>
+          <a href="index.php" class="text-decoration-none">Commencer à faire mes achats !</a>
+        </div>
+      </div>
+      <?php endif;?>
+    </div>
+  </div>
+</div>
+
+<div style="height: 100px"></div>
+<div class="row bg-light fixed-bottom py-3">
+  <div class="col text-center">
+    <a class="text-decoration-none text-dark fst-italic fs-5" href="index.php">Revenir a l'accueil</a>
   </div>
 </div>

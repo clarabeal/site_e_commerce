@@ -307,6 +307,23 @@ INSERT INTO `reviews` (`id_product`, `name_user`, `photo_user`, `stars`, `title`
 (20, 'Dominique', 'homme.jpg', 3, 'bon', 'un produit de qualité; ce thé est parfumé et on apprécie le gout délicat de la cannelle; je vous le recommande.'),
 (22, 'Sylvain', 'homme.jpg', 5, 'délicieux', 'une boisson très parfumée; idéale pour bien démarrer la journée; à essayer les yeux fermés.');
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `factures`
+--
+
+CREATE TABLE `factures` (
+  `id` int(11) NOT NULL,
+  `nb_prod` int(11) NOT NULL,
+  `date` date DEFAULT NULL,
+  `price` decimal(5,2) NOT NULL,
+  `reglement` varchar(6) NOT NULL,
+  `date_echeance` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
 --
 -- Index pour les tables déchargées
 --
@@ -357,6 +374,12 @@ ALTER TABLE `orders`
 -- Index pour la table `products`
 --
 ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `products`
+--
+ALTER TABLE `factures`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -416,6 +439,12 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT pour la table `factures`
+--
+ALTER TABLE `factures`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- Contraintes pour les tables déchargées

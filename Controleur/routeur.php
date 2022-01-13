@@ -9,6 +9,7 @@ require_once 'Controleur/controleurPanier.php';
 require_once 'Controleur/controleurMonCompte.php';
 require_once 'Controleur/controleurAdresse.php';
 require_once 'Controleur/controleurPaiement.php';
+require_once 'Controleur/controleurMaCommande.php';
 require_once 'Vue/vue.php';
 
 class Routeur {
@@ -21,6 +22,8 @@ class Routeur {
   private $ctrlMonCompte;
   private $ctrlAdresse;
   private $ctrlPaiement;
+  private $ctrlMaCommande;
+
 
   public function __construct(){
     $this->ctrlAccueil = new ControleurAccueil();
@@ -32,6 +35,7 @@ class Routeur {
     $this->ctrlMonCompte = new ControleurMonCompte();
     $this->ctrlAdresse = new ControleurAdresse();
     $this->ctrlPaiement = new ControleurPaiement();
+    $this->ctrlMaCommande = new ControleurMaCommande();
   }
     
   //Traite une requête entrante
@@ -300,16 +304,25 @@ class Routeur {
           $idClient=$client['customer_id'];
           
           $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,1);
+          $_SESSION['idOrder'] = $idCommande;
           
           $this->ctrlPaiement->paiement();
           
           if(isset($_POST['paypalPaiement'])) {
             $this->ctrlPaiement->ctrlPaid("paypal",$idCommande);
-            echo('<script> location.replace("https://www.paypal.com/"); </script>');
+            echo('<script> location.replace("index.php?action=macommande"); </script>');
           } elseif(isset($_POST['chequePaiement'])) {
             $this->ctrlPaiement->ctrlPaid("cheque",$idCommande);
-            echo('<script> location.replace("index.php"); </script>');
+            echo('<script> location.replace("index.php?action=macommande"); </script>');
           }
+          
+        }
+        
+        // Ma Commande //
+        
+        else if($_GET['action']=='macommande') {
+          
+          $this->ctrlMaCommande->maCommande($_SESSION['idOrder']);
           
         }
              

@@ -41,4 +41,9 @@ class Produit extends Modele{
         $reviews = $this->executerRequete($sql,array($idProduit));
         return $reviews->fetchAll();
     }
+  
+    public function ajouterAvis($idProduit,$avis){
+        $sql='INSERT INTO reviews VALUES(?,?,?,?,?,?)';
+        $this->executerRequete($sql,array($idProduit,$avis['pseudo'],$avis['genre_img'],$avis['note'],$avis['titre'],$avis['desc']));
+    }
 }

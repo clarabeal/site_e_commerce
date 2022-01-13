@@ -97,7 +97,20 @@ class Routeur {
             else{
               throw new Exception("Connectez vous avant d'acheter");
             }
-          }
+          } else if(isset($_POST['ajouterAvis'])) {
+              
+              $pseudoClient=$this->getParametre($_SESSION,'pseudo');
+              if($this->getParametre($_POST,'genre') == "homme"){
+                $genre_img="homme.jpg";
+              } else {
+                $genre_img="femme.png";
+              }
+              
+              $avis=array('pseudo'=>$pseudoClient,'genre_img'=>$genre_img,'note'=>$this->getParametre($_POST,'stars'),'titre'=>$this->getParametre($_POST,'titre'),'desc'=>$this->getParametre($_POST,'avis'));
+              
+              $this->ctrlCaracteristiques->ctrlAjouterAvis($idProduit,$avis);
+              echo('<script> location.replace("index.php?action=details&idProduit='.$idProduit.'"); </script>');
+            }
         }
         
         // Catégories //

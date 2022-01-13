@@ -19,11 +19,11 @@ class ControleurMonCompte{
     }
   
     public function ctrlChangePass($pseudo,$hashMdp){
-       return $this->monCompte->changePass($pseudo,$hashMdp);
+        return $this->monCompte->changePass($pseudo,$hashMdp);
     }
   
-  public function ctrlCheckMdp($pseudo,$oldHashMdp){
-       return $this->monCompte->checkMdp($pseudo,$oldHashMdp);
+    public function ctrlCheckMdp($pseudo,$oldHashMdp){
+        return $this->monCompte->checkMdp($pseudo,$oldHashMdp);
     }
   
 }

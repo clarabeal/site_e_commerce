@@ -47,13 +47,58 @@
       <img src="Contenu/Images/review_gray.png" style="height:20px;width:20px;">
       <?php endfor;?>
     </div>
-    <div class="col">
+    <div class="col me-3">
       <h5><?=$rev['title']?></h5>
       <p><?=$rev['description']?></p>
     </div>
   </div>
   <hr/>
   <?php endforeach;?>
+  <div class="row align-items-center text-center p-3">
+    <h3>Donner un avis sur le produit</h3>
+    <form action="index.php?action=details&idProduit=<?=$caracteristiques['id']?>" method="POST">
+      <div class="row align-items-center text-center">
+        <div class="col-2">
+          <?php if(!$_SESSION['logged']){?>
+          Votre nom : <input type="text" class="form-control" name="nom" required>
+          <?php }else{?>
+          Votre nom : <?=$_SESSION['pseudo']?>
+          <?php }?>
+        </div>
+        <div class="col-1">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="genre" value="homme" checked>
+            <label class="form-check-label" for="homme">
+              Homme
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="genre" value="femme">
+            <label class="form-check-label" for="femme">
+              Femme
+            </label>
+          </div>
+        </div>
+        <div class="col-2">
+          Note sur 5
+          <input type="number" class="form-control mx-auto" min="0" max="5" name="stars" style="width:30%" required>
+        </div>
+        <div class="col-3">
+          Titre : <input type="text" class="form-control" name="titre" required>
+        </div>
+        <div class="col-4">
+          Avis : <input type="text" class="form-control" name="avis" required>
+        </div>
+      </div>
+      <div class="row align-items-center text-center mt-3">
+        <div class="col">
+          <input type="submit" class="btn btn-danger" name="ajouterAvis" value="Envoyer">
+        </div>
+      </div>
+    </form>
+  </div>
+  <hr/>
+  
 </div>
 
 <div style="height: 100px"></div>

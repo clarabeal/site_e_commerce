@@ -45,4 +45,8 @@ class ControleurCaracteristiques {
     public function ctrlGetCustomerId($pseudo){
         return $this->panier->getCustomerId($pseudo);
     }
+  
+    public function ctrlAjouterAvis($idProduit,$avis) {
+        return $this->caracteristiques->ajouterAvis($idProduit,$avis);
+    }
 }

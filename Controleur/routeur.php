@@ -37,10 +37,19 @@ class Routeur {
     $this->ctrlPaiement = new ControleurPaiement();
     $this->ctrlMaCommande = new ControleurMaCommande();
   }
-    
+  
   //Traite une requête entrante
   public function routerRequete(){
     try {
+      
+      if(!isset($_SESSION['id'])){
+        $_SESSION['id']=session_id();
+      }
+      if(!isset($_SESSION['logged'])){
+        $_SESSION['logged']=false;
+      }
+      
+      
       if(isset($_GET['action'])){
         
         // Caractéristiques //
@@ -64,10 +73,6 @@ class Routeur {
               $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
               $idClient=$client['customer_id'];
               $qteProduit=intval($this->getParametre($_POST,'qte'));
-              
-              if($qteProduit==NULL) {
-                $qteProduit=1;
-              }
 
               if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)){ //On regarde si l'utilisateur a une commande en cours
                 $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
@@ -93,13 +98,41 @@ class Routeur {
                   throw new Exception("Produit en rupture de stock/en quantité insuffisante");
                 }
               }
-            }
-            else{
-              throw new Exception("Connectez vous avant d'acheter");
+              
+            // PAS LOGGED
+              
+            } else {
+              
+                $idClient=$this->ctrlInscription->ctrlRegisterSession()['id'];
+                $qteProduit=intval($this->getParametre($_POST,'qte'));
+              
+                if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)){ //On regarde si l'utilisateur a une commande en cours
+                  $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
+                  
+                  //On vérifie qu'il n'y a pas de problème de stock
+                  if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
+                    echo('<script> location.replace("index.php?action=panier"); </script>');
+                  } else {
+                    throw new Exception("Produit en rupture de stock/en quantité insuffisante");
+                  }
+                } else{
+                  //Si l'utilisateur n'a pas de commande en cours il faut en créer une
+                  $this->ctrlCaracteristiques->ctrlCreateOrder($idCLient,$idSession);
+                  echo('text');
+
+                  $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
+
+                  if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
+                    echo('<script> location.replace("index.php?action=panier"); </script>');
+                  }
+                  else{
+                    throw new Exception("Produit en rupture de stock/en quantité insuffisante");
+                  }
+                }
             }
           } else if(isset($_POST['ajouterAvis'])) {
               
-              $pseudoClient=$this->getParametre($_SESSION,'pseudo');
+              $pseudoClient=ucfirst($this->getParametre($_SESSION,'pseudo'));
               if($this->getParametre($_POST,'genre') == "homme"){
                 $genre_img="homme.jpg";
               } else {
@@ -168,7 +201,7 @@ class Routeur {
           }
           else{ //Si l'utilisateur est connecté, on le déconnecte
             $_SESSION['logged']=false;
-            $_SESSION['pseudo']=NULL;
+            $_SESSION['pseudo']=$_SESSION['id'];
             $_SESSION['admin']=false;
             echo('<script> location.replace("index.php"); </script>');
           }

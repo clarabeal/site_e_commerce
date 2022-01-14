@@ -27,4 +27,8 @@ class ControleurInscription {
     public function ctrlRegister($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email,$pseudo,$hashMdp){
         $this->inscription->register($prenom,$nom,$add1,$add2,$ville,$cp,$numTel,$email,$pseudo,$hashMdp);
     }
+  
+    public function ctrlRegisterSession(){
+        $this->inscription->registerSession();
+    }
 }

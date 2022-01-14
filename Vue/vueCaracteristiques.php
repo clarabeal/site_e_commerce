@@ -18,7 +18,7 @@
         <?php if(!$_SESSION['admin']):?>
         <form action="<?="index.php?action=details&idProduit=".$caracteristiques['id'];?>" method="POST">
           <div class="container mb-3">
-            <p class="mb-2">Choisissez la quantité :</p><input type="number" name="qte" class="form-control mx-auto" style="width:60px;" min="1" max="20"/>
+            <p class="mb-2">Choisissez la quantité :</p><input type="number" name="qte" class="form-control mx-auto" style="width:60px;" min="1" max="20" required/>
           </div>
           <input class="btn btn-danger button" type="submit" name="ajoutPanier" value="Ajouter au panier">
         </form>

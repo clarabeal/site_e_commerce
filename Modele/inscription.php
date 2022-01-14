@@ -29,6 +29,14 @@ class Inscription extends Modele {
         $sql="INSERT INTO logins VALUES (NULL,$customerId,?,?)";
         $this->executerRequete($sql,array($pseudo,$hashMdp));
     }
+  
+    public function registerSession() {
+        $sql='INSERT INTO customers VALUES (NULL,"","","","","","","","",0)';
+        $this->executerRequete($sql,NULL);
+        $sql='SELECT id FROM customers WHERE MAX(id)';
+        $idCustomer=$this->executerRequete($sql,NULL);
+        return $idCustomer->fetch();
+    }
 
     //Renvoie l'identifiant de la table customer pour la customer_id de logins
     public function getCustomerId($email){

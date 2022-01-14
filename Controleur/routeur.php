@@ -244,7 +244,6 @@ class Routeur {
               header('Location:index.php');
               exit();
             } else if($this->ctrlConnexion->ctrlCheckAdmin($pseudo,$hashMdpConnexion)){
-              echo('nique t');
               $_SESSION['logged']=true;
               $_SESSION['pseudo']=$pseudo;
               $_SESSION['admin']=true;

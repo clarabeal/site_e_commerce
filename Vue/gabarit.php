@@ -26,10 +26,15 @@
         <div class="col text-center d-flex justify-content-end align-items-center me-3">
           <?php
             if($_SESSION['logged']){
-              echo ('<a href=index.php?action=moncompte class="buttn text-uppercase">');
-              echo ($_SESSION["pseudo"].'</a>');
-              echo ('<a style="margin-left:10px;" href=index.php?action=inscription class="buttn">');
-              echo ('Déconnexion</a>');
+              if(!$_SESSION['admin']) {
+                echo ('<a href=index.php?action=moncompte class="buttn text-uppercase">');
+                echo ($_SESSION["pseudo"].'</a>');
+              } else {
+                echo ('<a href=index.php?action=moncompte class="buttn text-uppercase">');
+                echo ('Admin</a>');                
+              }
+                echo ('<a style="margin-left:10px;" href=index.php?action=inscription class="buttn">');
+                echo ('Déconnexion</a>');
             }
             else {
               echo ('<a href=index.php?action=inscription class="buttn">');
@@ -37,9 +42,10 @@
               echo ('<a style="margin-left:10px;" href=index.php?action=connexion class="buttn">');
               echo ('Connexion</a>');
             }
+            if(!$_SESSION['admin']){
             echo ('<a style="margin-left:10px;" href=index.php?action=panier class="buttn-panier">');
             echo ('<img src="Contenu/Images/logo-panier.png" style="width:45px; height:45px;"></a>');
-          ?>
+            }?>
         </div>
       </div>
       <div style="height: 100px"></div>

@@ -169,6 +169,7 @@ class Routeur {
           else{ //Si l'utilisateur est connecté, on le déconnecte
             $_SESSION['logged']=false;
             $_SESSION['pseudo']=NULL;
+            $_SESSION['admin']=false;
             echo('<script> location.replace("index.php"); </script>');
           }
         }
@@ -185,6 +186,13 @@ class Routeur {
             if($this->ctrlConnexion->ctrlCheckUser($pseudo,$hashMdpConnexion)){
               $_SESSION['logged']=true;
               $_SESSION['pseudo']=$pseudo;
+              header('Location:index.php');
+              exit();
+            } else if($this->ctrlConnexion->ctrlCheckAdmin($pseudo,$hashMdpConnexion)){
+              echo('nique t');
+              $_SESSION['logged']=true;
+              $_SESSION['pseudo']=$pseudo;
+              $_SESSION['admin']=true;
               header('Location:index.php');
               exit();
             }
@@ -224,33 +232,47 @@ class Routeur {
         // Mon compte //
         
         else if($_GET['action']=='moncompte') {
-          $pseudoClient=$this->getParametre($_SESSION,'pseudo');
-
-          $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
-          $idClient=$client['customer_id'];
-          $this->ctrlMonCompte->monCompte($idClient);
           
           if($_SESSION['logged']) {
-          
-            // Change le mdp du compte si l'utilisateur l'utilise correctement
-            if(isset($_POST['validerChgtMdp'])) {
+            if(!$_SESSION['admin']) {
+              $pseudoClient=$this->getParametre($_SESSION,'pseudo');
 
-              $newMdp=$this->getParametre($_POST,'newMdp');
-              $confirmNewMdp=$this->getParametre($_POST,'confirmNewMdp');
+              $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
+              $idClient=$client['customer_id'];
+              $this->ctrlMonCompte->monCompte($idClient);
 
-              if($newMdp==$confirmNewMdp) {
+              // Change le mdp du compte si l'utilisateur l'utilise correctement
+              if(isset($_POST['validerChgtMdp'])) {
 
-                $pseudo=$this->getParametre($_SESSION,'pseudo');
-                $oldHashMdp=sha1($this->getParametre($_POST,'oldMdp'));
-                if($this->ctrlMonCompte->ctrlCheckMdp($pseudo,$oldHashMdp)) {
+                $newMdp=$this->getParametre($_POST,'newMdp');
+                $confirmNewMdp=$this->getParametre($_POST,'confirmNewMdp');
 
-                  $newHashMdp=sha1($newMdp);
-                  $this->ctrlMonCompte->ctrlChangePass($pseudo,$newHashMdp);
+                if($newMdp==$confirmNewMdp) {
+
+                  $pseudo=$this->getParametre($_SESSION,'pseudo');
+                  $oldHashMdp=sha1($this->getParametre($_POST,'oldMdp'));
+                  if($this->ctrlMonCompte->ctrlCheckMdp($pseudo,$oldHashMdp)) {
+
+                    $newHashMdp=sha1($newMdp);
+                    $this->ctrlMonCompte->ctrlChangePass($pseudo,$newHashMdp);
+                  } else {
+                    throw new Exception("Mauvais ancien mot de passe");
+                  } 
                 } else {
-                  throw new Exception("Mauvais ancien mot de passe");
-                } 
-              } else {
-                throw new Exception("Le nouveau mot de passe doit être le même que celui confirmé");
+                  throw new Exception("Le nouveau mot de passe doit être le même que celui confirmé");
+                }
+              }
+            } else {
+              $this->ctrlMonCompte->monCompte();
+              if(isset($_POST['expeCommande'])) {
+                $idCommande = $this->getParametre($_POST,'idCommande');
+                $this->ctrlMonCompte->ctrlExpeCommande($idCommande);
+                echo('<script> location.replace("index.php?action=moncompte"); </script>');
+                
+              } elseif(isset($_POST['chequeCommande'])) {
+                $idCommande = $this->getParametre($_POST,'idCommande');
+                $this->ctrlMonCompte->ctrlChequeCommande($idCommande);
+                echo('<script> location.replace("index.php?action=moncompte"); </script>');
               }
             }
           } else {

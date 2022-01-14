@@ -19,4 +19,8 @@ class ControleurConnexion{
     public function ctrlCheckUser($pseudo,$hashMdp){
         return $this->connexion->checkUser($pseudo,$hashMdp);
     }
+  
+    public function ctrlCheckAdmin($pseudo,$hashMdp){
+        return $this->connexion->checkAdmin($pseudo,$hashMdp);
+    }
 }

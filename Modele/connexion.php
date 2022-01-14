@@ -10,4 +10,10 @@ class Connexion extends Modele {
         $resultat=$this->executerRequete($sql,array($pseudo,$hashMdp));
         return ($resultat->RowCount()==1);
     }
+  
+    public function checkAdmin($pseudo,$hashMdp){
+        $sql='SELECT * FROM admin WHERE username=? AND password=?';
+        $resultat=$this->executerRequete($sql,array($pseudo,$hashMdp));
+        return ($resultat->RowCount()==1);
+    }
 }

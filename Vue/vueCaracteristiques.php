@@ -15,13 +15,14 @@
         <p><?=$caracteristiques['description']; ?></p> 
         <p>Prix : <?=$caracteristiques['price']; ?> €</p> 
 
-
+        <?php if(!$_SESSION['admin']):?>
         <form action="<?="index.php?action=details&idProduit=".$caracteristiques['id'];?>" method="POST">
           <div class="container mb-3">
             <p class="mb-2">Choisissez la quantité :</p><input type="number" name="qte" class="form-control mx-auto" style="width:60px;" min="1" max="20"/>
           </div>
           <input class="btn btn-danger button" type="submit" name="ajoutPanier" value="Ajouter au panier">
         </form>
+        <?php endif;?>
       </div>
     </div>
   </div>
@@ -54,6 +55,7 @@
   </div>
   <hr/>
   <?php endforeach;?>
+  <?php if(!$_SESSION['admin']):?>
   <div class="row align-items-center text-center p-3">
     <h3>Donner un avis sur le produit</h3>
     <form action="index.php?action=details&idProduit=<?=$caracteristiques['id']?>" method="POST">
@@ -97,8 +99,7 @@
       </div>
     </form>
   </div>
-  <hr/>
-  
+  <?php endif;?>
 </div>
 
 <div style="height: 100px"></div>

@@ -1,5 +1,4 @@
-<?php $this->titre=$caracteristiques['name']; ?>
-
+<?php $this->titre=$caracteristiques['name'];?>
 
 <div class="col-8 bg-light mx-auto mt-3" style="border-radius: 12px;">
   <div class="row align-items-center">

@@ -9,7 +9,6 @@ class ControleurCaracteristiques {
     private $caracteristiques;
     private $categorie;
     private $panier;
-    private $reviews;
 
     public function __construct(){
         $this->caracteristiques = new Produit();

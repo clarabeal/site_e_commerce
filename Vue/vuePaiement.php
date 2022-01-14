@@ -12,10 +12,3 @@
     </div>
   </div>
 </div>
-
-<div style="height: 100px"></div>
-<div class="row bg-light fixed-bottom py-3">
-  <div class="col text-center">
-    <a class="text-decoration-none text-dark fst-italic fs-5" href="index.php">Revenir a l'accueil</a>
-  </div>
-</div>

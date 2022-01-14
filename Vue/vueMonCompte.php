@@ -38,7 +38,7 @@ if(!$_SESSION['admin']):?>
   </div>
 </div>
 <?php endif?>
-<div class="col-11 bg-light mx-auto mt-5" style="border-radius: 12px;">
+<div class="col-11 bg-light mx-auto my-5" style="border-radius: 12px;">
   <div class="row align-items-center">
     <div class="col text-center pt-2">
       <?php if(!$_SESSION['admin']):?>
@@ -99,10 +99,3 @@ if(!$_SESSION['admin']):?>
 </div>
 
 <?php endif;?>
-
-<div style="height: 100px"></div>
-<div class="row bg-light fixed-bottom py-3">
-  <div class="col text-center">
-    <a class="text-decoration-none text-dark fst-italic fs-5" href="index.php">Revenir a l'accueil</a>
-  </div>
-</div>

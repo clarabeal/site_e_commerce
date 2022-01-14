@@ -137,8 +137,12 @@ class Routeur {
                 }
             }
           } else if(isset($_POST['ajouterAvis'])) {
-              
-              $pseudoClient=ucfirst($this->getParametre($_SESSION,'pseudo'));
+            
+              if($_SESSION['logged']) {  
+                $pseudoClient=ucfirst($_SESSION['pseudo']);
+              } else {
+                $pseudoClient=ucfirst($this->getParametre($_POST,'nom'));
+              }
               if($this->getParametre($_POST,'genre') == "homme"){
                 $genre_img="homme.jpg";
               } else {

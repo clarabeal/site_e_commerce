@@ -43,6 +43,14 @@
       <div style="height: 100px"></div>
       <?=$contenu?>
     </div>
+    
+    <div style="height: 100px"></div>
+    <div class="row bg-light fixed-bottom py-3">
+      <div class="col text-center">
+        <a class="text-decoration-none text-dark fst-italic fs-5" href="index.php">Revenir a l'accueil</a>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="Contenu/Scripts/scroll-nav.js"></script>
   </body>

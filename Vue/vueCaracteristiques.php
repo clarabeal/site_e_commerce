@@ -55,7 +55,7 @@
   <hr/>
   <?php endforeach;?>
   <?php if(!$_SESSION['admin']):?>
-  <div class="row align-items-center text-center p-3">
+  <div class="row align-items-center text-center p-3 mb-3">
     <h3>Donner un avis sur le produit</h3>
     <form action="index.php?action=details&idProduit=<?=$caracteristiques['id']?>" method="POST">
       <div class="row align-items-center text-center">
@@ -82,7 +82,7 @@
         </div>
         <div class="col-2">
           Note sur 5
-          <input type="number" class="form-control mx-auto" min="0" max="5" name="stars" style="width:30%" required>
+          <input type="number" class="form-control mx-auto" min="0" max="5" name="stars" style="width:50%" required>
         </div>
         <div class="col-3">
           Titre : <input type="text" class="form-control" name="titre" required>
@@ -99,11 +99,4 @@
     </form>
   </div>
   <?php endif;?>
-</div>
-
-<div style="height: 100px"></div>
-<div class="row bg-light fixed-bottom py-3">
-  <div class="col text-center">
-    <a class="text-decoration-none text-dark fst-italic fs-5" href="index.php">Revenir a l'accueil</a>
-  </div>
 </div>

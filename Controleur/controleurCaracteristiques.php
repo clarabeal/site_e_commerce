@@ -17,12 +17,12 @@ class ControleurCaracteristiques {
     }
 
     //Affiche les détails sur un produit
-    public function caracteristiques($idProduit){
+    public function caracteristiques($idProduit,$msgErreur=""){
         $caracteristiques = $this->caracteristiques->getCaracteristiques($idProduit);
         $categorie = $this->categorie->getCategorie($idProduit);
         $reviews = $this->caracteristiques->getReviews($idProduit);
         $vue = new Vue("Caracteristiques");
-        $vue->generer(array('caracteristiques' => $caracteristiques, 'categorie' => $categorie, 'reviews' => $reviews));
+        $vue->generer(array('caracteristiques' => $caracteristiques, 'categorie' => $categorie, 'reviews' => $reviews, 'msgErreur'=>$msgErreur));
     }
 
     public function ctrlCheckOrder($idClient){

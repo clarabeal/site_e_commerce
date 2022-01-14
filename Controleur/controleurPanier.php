@@ -33,4 +33,12 @@ class ControleurPanier {
     public function ctrlSetTotalOrder($idCommande){
         $this->panier->setTotalOrder($idCommande);
     }
+  
+    public function ctrlTransfertPanier($idClient,$idCommande,$pseudo) {
+        return $this->panier->transfertPanier($idClient,$idCommande,$pseudo);
+    }
+  
+    public function ctrlSupprCustomer($idClient) {
+        return $this->panier->supprCustomer($idClient);
+    }
 }

@@ -24,4 +24,8 @@
         
         return $this->bdd;
     }
+  
+    public function last_insert_id() {
+      return $this->getBDD()->lastInsertId();
+    }
 }

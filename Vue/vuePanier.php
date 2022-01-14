@@ -1,6 +1,5 @@
-<?php $this->titre='WEB 4 SHOP : Votre Panier'; 
+<?php $this->titre='WEB 4 SHOP : Votre Panier'; ?>
 
-if($_SESSION['logged']): ?>
 <div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">
   <div class="row pt-2">
     <div class="col text-center"><h1>Mon panier</h1></div>
@@ -49,4 +48,3 @@ if($_SESSION['logged']): ?>
     <a class="text-decoration-none text-dark fst-italic fs-5" href="index.php">Revenir a l'accueil</a>
   </div>
 </div>
-<?php endif;?>

@@ -45,8 +45,14 @@ class Routeur {
       if(!isset($_SESSION['id'])){
         $_SESSION['id']=session_id();
       }
+      if(!isset($_SESSION['idClient'])) {
+        $_SESSION['idClient']=$this->ctrlInscription->ctrlRegisterSession();
+      }
       if(!isset($_SESSION['logged'])){
         $_SESSION['logged']=false;
+      }
+      if(!isset($_SESSION['admin'])) {
+        $_SESSION['admin']=false;
       }
       
       
@@ -87,7 +93,7 @@ class Routeur {
               }
               else{
                 //Si l'utilisateur n'a pas de commande en cours il faut en créer une
-                $this->ctrlCaracteristiques->ctrlCreateOrder($idClient,$_SESSION['id']);
+                $this->ctrlCaracteristiques->ctrlCreateOrder($idClient,$_SESSION['id'],true);
 
                 $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
 
@@ -103,8 +109,9 @@ class Routeur {
               
             } else {
               
-                $idClient=$this->ctrlInscription->ctrlRegisterSession()['id'];
-                $qteProduit=intval($this->getParametre($_POST,'qte'));
+                $idSession=$_SESSION['id'];
+                $idClient=$_SESSION['idClient'];
+                $qteProduit=$this->getParametre($_POST,'qte');
               
                 if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)){ //On regarde si l'utilisateur a une commande en cours
                   $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
@@ -117,8 +124,7 @@ class Routeur {
                   }
                 } else{
                   //Si l'utilisateur n'a pas de commande en cours il faut en créer une
-                  $this->ctrlCaracteristiques->ctrlCreateOrder($idCLient,$idSession);
-                  echo('text');
+                  $this->ctrlCaracteristiques->ctrlCreateOrder($idClient,$idSession,false);
 
                   $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
 
@@ -203,6 +209,8 @@ class Routeur {
             $_SESSION['logged']=false;
             $_SESSION['pseudo']=$_SESSION['id'];
             $_SESSION['admin']=false;
+            $this->ctrlPanier->ctrlSupprCustomer($_SESSION['idClient']);
+            unset($_SESSION['idClient']);
             echo('<script> location.replace("index.php"); </script>');
           }
         }
@@ -212,10 +220,24 @@ class Routeur {
         else if($_GET['action']=='connexion'){
           $this->ctrlConnexion->connexion();
           if(isset($_POST['validerConnexion'])){
-
+            
             $pseudo=$this->getParametre($_POST,'pseudoConnexion');
             $hashMdpConnexion=sha1($this->getParametre($_POST,'mdpConnexion'));
-
+            
+            $idClient=$_SESSION['idClient'];
+            
+            $idNewClient=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudo)['customer_id'];
+            
+            if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)) {
+              if(!$this->ctrlCaracteristiques->ctrlCheckOrder($idNewClient)) {
+                $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
+                $idClient=$this->ctrlPanier->ctrlTransfertPanier($idClient,$idCommande,$pseudo);
+              } else {
+                $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
+                $this->ctrlPanier->ctrlViderPanier($idCommande);
+              }
+            }
+            
             if($this->ctrlConnexion->ctrlCheckUser($pseudo,$hashMdpConnexion)){
               $_SESSION['logged']=true;
               $_SESSION['pseudo']=$pseudo;
@@ -244,6 +266,24 @@ class Routeur {
 
             $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
             $idClient=$client['customer_id'];
+              if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)) {
+              $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
+
+              $this->ctrlPanier->ctrlSetTotalOrder($idCommande);
+
+              $this->ctrlPanier->panierConnect($idClient,$idCommande);
+
+              if(isset($_POST['viderPanier'])) {
+                $this->ctrlPanier->ctrlViderPanier($idCommande);
+                echo('<script> location.replace("index.php?action=panier"); </script>');
+              }
+            }
+            else{
+              $this->ctrlPanier->panier();
+            }
+          } else {
+              $idClient=$_SESSION['idClient'];
+            
               if($this->ctrlCaracteristiques->ctrlCheckOrder($idClient)) {
               $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
 

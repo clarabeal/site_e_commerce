@@ -19,10 +19,11 @@ class Panier extends Modele {
     }
   
     //Insère une nouvelle commande dans la table orders
-    public function createOrder($idClient,$session){
-        $sql='INSERT INTO orders VALUES (NULL,?,1,NULL,NULL,?,0,?,0)';
+    public function createOrder($idClient,$session,$logged){
+        if($logged==true) { $registered = 1;} else { $registered = 0;}
+        $sql='INSERT INTO orders VALUES (NULL,?,?,NULL,NULL,?,0,?,0)';
         $date=date("Y")."-".date("m")."-".date("j");
-        $this->executerRequete($sql,array($idClient,$date,$session));
+        $this->executerRequete($sql,array($idClient,$registered,$date,$session));
     }
 
     //Renvoie vrai si le produit a été ajouté à la commande, faux sinon
@@ -135,5 +136,25 @@ class Panier extends Modele {
     public function setTotalOrder($idCommande){
         $sql='UPDATE orders SET total = (SELECT SUM(P.price * O.quantity) FROM orderitems O JOIN products P ON O.product_id = P.id WHERE O.order_id =?) Where id = ?';
         $this->executerRequete($sql,array($idCommande,$idCommande));
+    }
+  
+    public function transfertPanier($idClient,$idCommande,$pseudo) {
+        $sql='UPDATE orders SET registered=1 WHERE id=?';
+        $this->executerRequete($sql,array($idCommande));
+        
+        $sql='SELECT customer_id FROM logins WHERE username=?';
+        $res=$this->executerRequete($sql,array($pseudo));
+        $newId=$res->fetch()['customer_id'];
+        
+        $sql='UPDATE orders SET customer_id=? WHERE id=?';
+        $this->executerRequete($sql,array($newId,$idCommande));
+      
+        $sql='DELETE FROM customers WHERE id=?';
+        $this->executerRequete($sql,array($idClient));
+    }
+  
+    public function supprCustomer($idClient){
+        $sql='DELETE FROM customers WHERE id=?';
+        $this->executerRequete($sql,array($idClient));
     }
 }

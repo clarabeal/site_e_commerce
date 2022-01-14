@@ -29,6 +29,6 @@ class ControleurInscription {
     }
   
     public function ctrlRegisterSession(){
-        $this->inscription->registerSession();
+        return $this->inscription->registerSession();
     }
 }

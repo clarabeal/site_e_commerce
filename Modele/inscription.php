@@ -33,9 +33,8 @@ class Inscription extends Modele {
     public function registerSession() {
         $sql='INSERT INTO customers VALUES (NULL,"","","","","","","","",0)';
         $this->executerRequete($sql,NULL);
-        $sql='SELECT id FROM customers WHERE MAX(id)';
-        $idCustomer=$this->executerRequete($sql,NULL);
-        return $idCustomer->fetch();
+        $idCustomer=intval($this->last_insert_id());
+        return $idCustomer;
     }
 
     //Renvoie l'identifiant de la table customer pour la customer_id de logins

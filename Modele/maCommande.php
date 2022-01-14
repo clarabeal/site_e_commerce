@@ -4,7 +4,7 @@ require_once 'Modele/Modele.php';
 
 class MaCommande extends Modele {
 
-    // Fonction changeant le mot de passe du client
+    // Fonction récupérant les infos d'une commande
   
     public function getInfoCommande($idCommande){
         $sql='SELECT * FROM orders WHERE id=?';

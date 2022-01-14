@@ -1,6 +1,6 @@
 <?php $this->titre='WEB 4 SHOP : Votre Panier'; ?>
 
-<div class="col-11 bg-light mx-auto my-3" style="border-radius: 12px;">
+<div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">
   <div class="row pt-2">
     <div class="col text-center"><h1>Mon panier</h1></div>
     <hr/>

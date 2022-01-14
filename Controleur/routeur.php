@@ -359,10 +359,14 @@ class Routeur {
         // Adresse //
 
         else if($_GET['action']=='saisirAdresse'){
-
-          $pseudoClient=$this->getParametre($_SESSION,'pseudo');
-          $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
-          $idClient=$client['customer_id'];
+          
+          if($_SESSION['logged']) {
+            $pseudoClient=$this->getParametre($_SESSION,'pseudo');
+            $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
+            $idClient=$client['customer_id'];
+          } else {
+            $idClient=$_SESSION['idClient'];
+          }
           
           $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
 
@@ -409,10 +413,14 @@ class Routeur {
         
         else if($_GET['action']=='paiement') {
           
-          $pseudoClient=$this->getParametre($_SESSION,'pseudo');
-
-          $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
-          $idClient=$client['customer_id'];
+          if($_SESSION['logged']){
+            $pseudoClient=$this->getParametre($_SESSION,'pseudo');
+            $client=$this->ctrlCaracteristiques->ctrlGetCustomerId($pseudoClient);
+            $idClient=$client['customer_id'];
+          } else {
+            $idClient=$_SESSION['idClient'];
+          }
+          
           
           $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,1);
           $_SESSION['idOrder'] = $idCommande;

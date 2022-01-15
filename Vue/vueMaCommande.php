@@ -1,11 +1,5 @@
 <?php $this->titre='WEB 4 SHOP : Ma commande'; ?>
 
-<div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">
-  <div class="row align-items-center">
-    
-  </div>
-</div>
-
 <!-- Affichage de la commande effectuée -->
 
 <div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">

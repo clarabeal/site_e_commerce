@@ -1,5 +1,9 @@
 <?php
 
+// Routeur : Lien entre back et front //
+
+// Fichiers requis
+
 require_once 'Controleur/controleurAccueil.php';
 require_once 'Controleur/controleurCaracteristiques.php';
 require_once 'Controleur/controleurCategorie.php';
@@ -24,6 +28,7 @@ class Routeur {
   private $ctrlPaiement;
   private $ctrlMaCommande;
 
+// Fonction de construction du routeur
 
   public function __construct(){
     $this->ctrlAccueil = new ControleurAccueil();
@@ -38,9 +43,12 @@ class Routeur {
     $this->ctrlMaCommande = new ControleurMaCommande();
   }
   
-  //Traite une requête entrante
+  //Traite une requête entrante (try/catch pour les erreurs)
+  
   public function routerRequete(){
     try {
+      
+       // Initialisation des variables de session
       
       if(!isset($_SESSION['id'])){
         $_SESSION['id']=session_id();
@@ -55,6 +63,7 @@ class Routeur {
         $_SESSION['admin']=false;
       }
       
+      // Si requete envoyée
       
       if(isset($_GET['action'])){
         
@@ -71,7 +80,11 @@ class Routeur {
             throw new Exception("Identifiant du produit incorrect");
           }
           
+          // Ajouter un produit au panier
+          
           if(isset($_POST['ajoutPanier'])){
+            
+            // Si l'utilisateur est connecté
 
             if($_SESSION['logged']){
 
@@ -105,7 +118,7 @@ class Routeur {
                 }
               }
               
-            // LOGGED OFF
+            // Si l'utilisateur n'est pas connecté
               
             } else {
               
@@ -137,6 +150,9 @@ class Routeur {
                   }
                 }
             }
+            
+          // Ajouter un avis à un produit
+            
           } else if(isset($_POST['ajouterAvis'])) {
             
               if($_SESSION['logged']) {  
@@ -174,6 +190,8 @@ class Routeur {
         else if($_GET['action']=='inscription'){
           if(!$_SESSION['logged']){ //Si l'utilisateur n'est pas connecté on affiche la page de connexion
             $this->ctrlInscription->inscription();
+            
+            // Inscription d'un utilisateur
 
             if(isset($_POST['validerInscription'])){
 
@@ -209,8 +227,10 @@ class Routeur {
                 throw new Exception("Le mot de passe n'est pas le même");
               }
             } 
-          }
-          else{ //Si l'utilisateur est connecté, on le déconnecte
+            
+          // Déconnexion de l'utilisateur  
+          
+          } else {
             $_SESSION['logged']=false;
             $_SESSION['pseudo']=$_SESSION['id'];
             $_SESSION['admin']=false;
@@ -224,6 +244,9 @@ class Routeur {
         
         else if($_GET['action']=='connexion'){
           $this->ctrlConnexion->connexion();
+          
+          // Connecter un utilisateur
+          
           if(isset($_POST['validerConnexion'])){
             
             $pseudo=$this->getParametre($_POST,'pseudoConnexion');
@@ -243,11 +266,16 @@ class Routeur {
               }
             }
             
+            // Si c'est un utilisateur lambda
+            
             if($this->ctrlConnexion->ctrlCheckUser($pseudo,$hashMdpConnexion)){
               $_SESSION['logged']=true;
               $_SESSION['pseudo']=$pseudo;
               header('Location:index.php');
               exit();
+              
+            // Si c'est un admin
+              
             } else if($this->ctrlConnexion->ctrlCheckAdmin($pseudo,$hashMdpConnexion)){
               $_SESSION['logged']=true;
               $_SESSION['pseudo']=$pseudo;
@@ -264,6 +292,8 @@ class Routeur {
         // Panier //
         
         else if($_GET['action']=='panier'){
+          
+          // Panier d'un utilisateur connecté
 
           if($_SESSION['logged']){
             $pseudoClient=$this->getParametre($_SESSION,'pseudo');
@@ -285,6 +315,9 @@ class Routeur {
             else{
               $this->ctrlPanier->panier();
             }
+            
+          // Panier d'un utilisateur non connecté
+            
           } else {
               $idClient=$_SESSION['idClient'];
             
@@ -309,6 +342,8 @@ class Routeur {
         // Mon compte //
         
         else if($_GET['action']=='moncompte') {
+          
+          // Page réservée aux utilisateur connecté lambda/admin
           
           if($_SESSION['logged']) {
             if(!$_SESSION['admin']) {
@@ -340,12 +375,17 @@ class Routeur {
                 }
               }
             } else {
+              
+              // Confirmer l'expédition d'une commande
+              
               $this->ctrlMonCompte->monCompte();
               if(isset($_POST['expeCommande'])) {
                 $idCommande = $this->getParametre($_POST,'idCommande');
                 $this->ctrlMonCompte->ctrlExpeCommande($idCommande);
                 echo('<script> location.replace("index.php?action=moncompte"); </script>');
                 
+              // Confirmer la réception du chèque de la commande  
+              
               } elseif(isset($_POST['chequeCommande'])) {
                 $idCommande = $this->getParametre($_POST,'idCommande');
                 $this->ctrlMonCompte->ctrlChequeCommande($idCommande);
@@ -373,6 +413,8 @@ class Routeur {
 
           $this->ctrlAdresse->adresse($idClient);
 
+          // Créer une nouvelle adresse
+          
           if(isset($_POST['validerNewAdresse'])){
             //On créé une nouvelle adresse dans delivery_addresses avec les valeurs du formulaire
             $prenom=$this->getParametre($_POST,'prenomClient');
@@ -394,8 +436,10 @@ class Routeur {
             $this->ctrlAdresse->ctrlUpdateStatusOrder($idCommande,1);
 
             echo('<script> location.replace("index.php?action=paiement"); </script>');
-          }
-          else if(isset($_POST['validerAdresse'])){
+          
+          // Utiliser une adresse déjà enregistrée
+            
+          } else if(isset($_POST['validerAdresse'])) {
 
             $resultat = $this->ctrlAdresse->ctrlCreateAdd($idClient,$idCommande);
             $idAdr=$resultat['id'];
@@ -428,6 +472,8 @@ class Routeur {
           
           $this->ctrlPaiement->paiement();
           
+          // Les deux types de paiement différents (possibilité d'en implémenter)
+          
           if(isset($_POST['paypalPaiement'])) {
             $this->ctrlPaiement->ctrlPaid("paypal",$idCommande);
             echo('<script> location.replace("index.php?action=macommande"); </script>');
@@ -441,6 +487,8 @@ class Routeur {
         // Ma Commande //
         
         else if($_GET['action']=='macommande') {
+          
+          // Affichage simple de la page maCommande
           
           $this->ctrlMaCommande->maCommande($_SESSION['idOrder']);
           
@@ -462,12 +510,14 @@ class Routeur {
   }
 
   // Affiche une erreur
+  
   private function erreur($msgErreur){
     $vue = new Vue ("Erreur");
     $vue->generer(array('msgErreur' => $msgErreur));
   }
 
-  //Recherche un paramètre dans un tableau
+  // Recherche un paramètre dans un tableau
+  
   private function getParametre($tableau,$nom){
     if(isset($tableau[$nom])){
       return $tableau[$nom];

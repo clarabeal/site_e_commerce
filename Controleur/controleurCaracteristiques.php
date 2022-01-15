@@ -1,5 +1,7 @@
 <?php
 
+// Controleur de Caracteristiques
+
 require_once 'Modele/produit.php';
 require_once 'Modele/categorie.php';
 require_once 'Modele/panier.php';
@@ -17,6 +19,7 @@ class ControleurCaracteristiques {
     }
 
     //Affiche les détails sur un produit
+  
     public function caracteristiques($idProduit,$msgErreur=""){
         $caracteristiques = $this->caracteristiques->getCaracteristiques($idProduit);
         $categorie = $this->categorie->getCategorie($idProduit);
@@ -24,6 +27,8 @@ class ControleurCaracteristiques {
         $vue = new Vue("Caracteristiques");
         $vue->generer(array('caracteristiques' => $caracteristiques, 'categorie' => $categorie, 'reviews' => $reviews, 'msgErreur'=>$msgErreur));
     }
+  
+    // Controleurs des fonctions du modele
 
     public function ctrlCheckOrder($idClient){
         return $this->panier->checkOrder($idClient);

@@ -1,5 +1,7 @@
 <?php 
 
+// Modele MonCompte
+
 require_once 'Modele/Modele.php';
 
 class MonCompte extends Modele {
@@ -11,17 +13,15 @@ class MonCompte extends Modele {
         $resultat=$this->executerRequete($sql,array($hashMdp,$pseudo));
     }
   
-    public function checkMdp($pseudo, $oldHashMdp) {
-        $sql='SELECT * FROM logins WHERE username=? AND password=?';
-        $resultat=$this->executerRequete($sql,array($pseudo,$oldHashMdp));
-        return ($resultat->RowCount()==1);
-    }
+    // Fonction renvoyant les informations du compte
   
     public function getCompteInfo($idClient) {
         $sql='SELECT C.* FROM customers C JOIN logins L ON C.id=L.customer_id WHERE L.customer_id=?';
         $informations = $this->executerRequete($sql,array($idClient));
         return $informations->fetch();
     }
+  
+    // Fonction renvoyant toutes les commandes d'un utilisateur
   
     public function getCommandes($idClient=NULL) {
         if($idClient==NULL) {

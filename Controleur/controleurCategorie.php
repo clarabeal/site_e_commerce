@@ -1,5 +1,7 @@
 <?php
 
+// Controleur de Categorie
+
 require_once 'Modele/produit.php';
 require_once 'Modele/categorie.php';
 require_once 'Vue/Vue.php';
@@ -16,6 +18,7 @@ class ControleurCategorie {
     }
 
     //Affiche la liste de tous les produits d'une catégorie
+  
     public function categorie($idCat){
         $produits = $this->produits->getProdCat($idCat);
         $categories = $this->categories->getCategories();

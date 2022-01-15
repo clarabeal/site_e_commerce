@@ -1,5 +1,7 @@
 <?php $this->titre='WEB 4 SHOP : Accueil'; ?>
 
+<!-- Carousel des catégories -->
+
 <div class="row">
   <div class="col mt-3 mb-3">
     <div id="ourCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -39,6 +41,8 @@
     </div>
   </div>
 </div>
+
+<!-- Liste des produits -->
 
 <div class="row">
   <div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">

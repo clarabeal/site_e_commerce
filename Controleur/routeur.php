@@ -92,9 +92,9 @@ class Routeur {
                 }
               }
               else{
+                
                 //Si l'utilisateur n'a pas de commande en cours il faut en créer une
                 $this->ctrlCaracteristiques->ctrlCreateOrder($idClient,$_SESSION['id'],true);
-
                 $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
 
                 if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
@@ -123,12 +123,13 @@ class Routeur {
                     throw new Exception("Produit en rupture de stock/en quantité insuffisante");
                   }
                 } else{
+                  
                   //Si l'utilisateur n'a pas de commande en cours il faut en créer une
-                  $this->ctrlCaracteristiques->ctrlCreateOrder($idClient,$idSession,false);
-
+                  $this->ctrlCaracteristiques->ctrlCreateOrder($idClient,$_SESSION['id'],false);
                   $idCommande=$this->ctrlCaracteristiques->ctrlGetIdOrder($idClient,0);
-
+                  
                   if($this->ctrlCaracteristiques->ctrlAddProduct($idCommande,$idProduit,$qteProduit)){
+                    
                     echo('<script> location.replace("index.php?action=panier"); </script>');
                   }
                   else{
@@ -274,7 +275,7 @@ class Routeur {
 
               $this->ctrlPanier->ctrlSetTotalOrder($idCommande);
 
-              $this->ctrlPanier->panierConnect($idClient,$idCommande);
+              $this->ctrlPanier->panierCommande($idClient,$idCommande);
 
               if(isset($_POST['viderPanier'])) {
                 $this->ctrlPanier->ctrlViderPanier($idCommande);
@@ -292,7 +293,7 @@ class Routeur {
 
               $this->ctrlPanier->ctrlSetTotalOrder($idCommande);
 
-              $this->ctrlPanier->panierConnect($idClient,$idCommande);
+              $this->ctrlPanier->panierCommande($idClient,$idCommande);
 
               if(isset($_POST['viderPanier'])) {
                 $this->ctrlPanier->ctrlViderPanier($idCommande);

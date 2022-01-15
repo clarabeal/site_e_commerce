@@ -1,3 +1,5 @@
+<!-- Template du site entier -->
+
 <!doctype html>
 <html lang="fr">
   <head>
@@ -7,8 +9,12 @@
     <link rel="stylesheet" type="text/css" href="Contenu/Style/style.css"/>
     <title><?=$titre?></title>
   </head>
+  
   <body style="background: rgb(45,45,45);">
     <div class="container-fluid">
+      
+      <!-- Menu flottant -->
+      
       <div id="menu" class="row fixed-top justify-content-between" 
            style="background-color: rgb(35,35,35);">
         <div class="col">
@@ -39,13 +45,19 @@
             echo ('<img src="Contenu/Images/logo-panier.png" style="width:45px; height:45px;"></a>');
             }?>
         </div>
-      </div>
+      </div>      
       <div style="height: 100px"></div>
+      
+      <!-- Affichage du contenu de la page -->
+      
       <?=$contenu?>
     </div>
     
+    <!-- Bande footer -->
+
+    
     <div style="height: 100px"></div>
-    <div class="row bg-light fixed-bottom py-3">
+    <div id="footer" class="row bg-light fixed-bottom py-3" style="opacity:0;">
       <div class="col text-center">
         <a class="text-decoration-none text-dark fst-italic fs-5" href="index.php">Revenir a l'accueil</a>
       </div>

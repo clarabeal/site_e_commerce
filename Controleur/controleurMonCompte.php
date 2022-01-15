@@ -1,5 +1,7 @@
 <?php
 
+// Controleur de MonCompte
+
 require_once 'Modele/monCompte.php';
 require_once 'Modele/adresse.php';
 require_once 'Vue/Vue.php';
@@ -11,9 +13,11 @@ class ControleurMonCompte{
     public function __construct(){
         $this->monCompte = new MonCompte();
         $this->adresse = new Adresse();
+        $this->connexion = new Connexion();
     }
 
     //Affiche la liste de tous les produits du site
+  
     public function monCompte($idClient=NULL){
         $info = $this->monCompte->getCompteInfo($idClient);
         $commandes = $this->monCompte->getCommandes($idClient);
@@ -21,12 +25,14 @@ class ControleurMonCompte{
         $vue->generer(array('info'=>$info,'commandes'=>$commandes));
     }
   
+    // Controleurs de fonctions du modele
+  
     public function ctrlChangePass($pseudo,$hashMdp){
         return $this->monCompte->changePass($pseudo,$hashMdp);
     }
   
     public function ctrlCheckMdp($pseudo,$oldHashMdp){
-        return $this->monCompte->checkMdp($pseudo,$oldHashMdp);
+        return $this->connexion->checkUser($pseudo,$oldHashMdp);
     }
   
     public function ctrlExpeCommande($idCommande,) {

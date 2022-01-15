@@ -2,6 +2,9 @@
 
 if($_SESSION['logged']):
 if(!$_SESSION['admin']):?>
+
+<!-- Affichage des infos du compte (si utilisateur connecté) -->
+
 <div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">
   <div class="row align-items-center">
     <div class="col text-center">
@@ -15,6 +18,9 @@ if(!$_SESSION['admin']):?>
       <p>Numéro de téléphone : <?=$info['phone']; ?></p>
       <p>Email : <?=$info['email']; ?></p>
     </div>
+    
+    <!-- Changer le mot de passe (si utilisateur connecté) -->
+    
     <div class="col vert-sep me-2">
       <form action="index.php?action=moncompte" method="POST">
         <h1 class="text-center my-3">Changer mon mot de passe</h1>
@@ -37,6 +43,9 @@ if(!$_SESSION['admin']):?>
     </div>
   </div>
 </div>
+
+<!-- Affichage de toutes les commandes (si l'utilisateur est admin) pour les confirmer / des commandes de l'utilisateur (si utilisateur connecté) -->
+
 <?php endif?>
 <div class="col-11 bg-light mx-auto my-5" style="border-radius: 12px;">
   <div class="row align-items-center">

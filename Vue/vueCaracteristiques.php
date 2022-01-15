@@ -1,5 +1,7 @@
 <?php $this->titre=$caracteristiques['name'];?>
 
+<!-- Affichage des infos du produit -->
+
 <div class="col-8 bg-light mx-auto mt-3" style="border-radius: 12px;">
   <div class="row align-items-center">
     <div class="col text-center ms-2 vert-sep py-3">
@@ -26,6 +28,9 @@
     </div>
   </div>
 </div>
+
+<!-- Affichage des avis et du formulaire pour en donner un -->
+
 <div class="col-8 bg-light mx-auto mt-5" style="border-radius: 12px;">
   <div class="row align-items-center text-center p-3">
     <h3>Leurs avis sur ce produit</h3>

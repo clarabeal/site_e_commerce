@@ -1,5 +1,7 @@
 <?php
 
+// Controleur de l'Inscription
+
 require_once 'Modele/inscription.php';
 require_once 'Vue/Vue.php';
 
@@ -11,10 +13,13 @@ class ControleurInscription {
     }
 
     // Affiche le formulaire d'inscription
+  
     public function inscription(){
         $vue=new Vue('Inscription');
         $vue->generer(array(NULL));
     }
+  
+    // Controleurs des fonctions du modele
 
     public function ctrlCheckAvaibilityPseudo($pseudo){
        return $this->inscription->checkAvaibilityPseudo($pseudo);

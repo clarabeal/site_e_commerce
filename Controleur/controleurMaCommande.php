@@ -1,5 +1,7 @@
 <?php
 
+// Controleur de MaCommande
+
 require_once 'Modele/maCommande.php';
 require_once 'Modele/panier.php';
 require_once 'Vue/Vue.php';
@@ -14,6 +16,7 @@ class ControleurMaCommande{
     }
 
     //Affiche la liste de tous les produits du site
+  
     public function maCommande($idCommande){
         $info=$this->maCommande->getInfoCommande($idCommande);
         $produits=$this->panier->getProductsOrder($idCommande);

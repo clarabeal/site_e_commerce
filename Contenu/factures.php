@@ -4,21 +4,22 @@
 require('factureGen/fpdf.php');
 require('factureGen/facture.php');
 
-$pdf = new FPDF('P','mm','A4');
+$pdf = new FPDF('P','mm','A4'); // Module FPDF utilisé
 
-$fac = new Facture();
+$fac = new Facture(); // Modele Facture utilisé
 
-$idCommande = intval($_GET['id']);
+$idCommande = $_GET['id']; // Récupération de l'id de la commande grâce à l'url
 
-$row = $fac->getRow($idCommande);
-$row_client = $fac->getRow_client($idCommande);
-$prods = $fac->getProducts($idCommande);
+$row = $fac->getRow($idCommande); // Propriétés de la facture
+$row_client = $fac->getRow_client($idCommande); // Informations du client
+$prods = $fac->getProducts($idCommande); // Liste des produits
 
-$pdf->AddPage();
+$pdf->AddPage(); // Création de la page
 
 $pdf->SetFont('Arial','B',20);
 
-/*Cell(width , height , text , border , end line , [align] )*/
+// Cell(width , height , text , border , end-line , [align] )
+// utf8_decode() pour les accents
 
 $pdf->Cell(75,10,'',0,0);
 $pdf->Cell(59 ,5,'Facture',0,0);
@@ -45,7 +46,7 @@ $pdf->Cell(25 ,5,'Date:',0,0);
 $pdf->Cell(34 ,5,$row['date'],0,1);
  
 $pdf->Cell(130 ,5,'',0,0);
-$pdf->Cell(25 ,5,'Invoice No:',0,0);
+$pdf->Cell(25 ,5,utf8_decode('Commande N°:'),0,0);
 $pdf->Cell(34 ,5,$row['id'],0,1);
 
 

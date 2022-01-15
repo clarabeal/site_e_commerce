@@ -6,6 +6,8 @@
   </div>
 </div>
 
+<!-- Affichage de la commande effectuée -->
+
 <div class="col-11 bg-light mx-auto mt-3" style="border-radius: 12px;">
   <div class="row align-items-center">
     <div class="col text-center pt-2">
@@ -44,6 +46,9 @@
         <?php endif; ?>
         <p>Votre commande sera expediée uniquement dès la réception de ce dernier.</p>
       </div>
+      
+<!-- Facture -->
+      
       <div class="row align-items-center pt-2">
         <h5 class="fst-italic">Votre Facture</h5>
         <a href="Contenu/factures.php?id=<?=$info['id']?>" class="text-decoration-none">Cliquez ici pour télécharger votre facture</a>

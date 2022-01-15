@@ -1,5 +1,7 @@
 <?php 
 
+// Modele MaCommande
+
 require_once 'Modele/Modele.php';
 
 class MaCommande extends Modele {
@@ -16,6 +18,7 @@ class MaCommande extends Modele {
   
     public function creerFacture($idCommande){
         // Try et catch pour éviter les erreurs si la facture est déja créée (actualisation de la page)
+      
         try{
           $sql='SELECT sum(quantity) FROM orderitems WHERE order_id=?';
           $res=$this->executerRequete($sql,array($idCommande));
@@ -35,7 +38,6 @@ class MaCommande extends Modele {
           $sql='INSERT INTO factures VALUES (?,?,?,?,?,?)';
           $this->executerRequete($sql,array($idCommande,$nb_prod,$date,$price,$reglement,$date_echeance));
         } catch(Exception $e) {
-          
         }
     }
   

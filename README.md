@@ -123,3 +123,9 @@ http:/localhost/phpmyadmin => Importer la BD présente dans le dossier BD
 - Génération de factures à l'affichage de la commande effectuée
 
 - Pannel admin pour les utilisateurs de la table admin en restreignant le panier à ceux-ci
+
+## Contenu nécessaire au site
+
+- factureGen : fichiers nécessaire à la génération des factures (polices et module FPDF)
+
+- Images/Scripts/Styles
